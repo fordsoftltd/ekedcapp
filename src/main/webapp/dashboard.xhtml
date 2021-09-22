@@ -1,0 +1,551 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:po="http://primefaces.org/roma"
+    template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="head">
+        <h:outputScript name="chartjs/chart.js" library="demo" />
+        <script type="text/javascript">
+            $(function() {
+                var ctx = document.getElementById("dashboard-chart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                        datasets: [{
+                            label: 'Sales',
+                            data: [12, 19, 3, 5, 2, 3, 9],
+                            borderColor: [
+                                '#0F97C7',
+                            ],
+                            borderWidth: 3,
+                            borderDash:[5, 5],
+                            fill: false,
+                            pointRadius: 3
+                        }, {
+                            label: 'Income',
+                            data: [1, 2, 5, 3, 12, 7, 15],
+                            backgroundColor: [
+                                'rgba(187,222,251,0.2)',
+                            ],
+                            borderColor: [
+                                '#578697',
+                            ],
+                            borderWidth: 3,
+                            fill: true
+                        },
+                        {
+                            label: 'Expenses',
+                            data: [7, 12, 15, 5, 3, 13, 21],
+                            borderColor: [
+                                '#1BA7AF',
+                            ],
+                            borderWidth: 3,
+                            fill: false,
+                            pointRadius: [4, 6, 4, 12, 8, 0, 4]
+                        },
+                        {
+                            label: 'New Users',
+                            data: [3, 7, 2, 17, 15, 13, 19],
+                            borderColor: [
+                                '#E2841A',
+                            ],
+                            borderWidth: 3,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        hover: {
+                            mode: 'index'
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Month'
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value'
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
+        </script>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="p-grid layout-dashboard">
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="overview-box card">
+                    <div class="overview-box-value">90</div>
+                    <div class="overview-box-title">TASKS</div>
+          
+                    <p:graphicImage name="images/dashboard/graph-tasks.svg" library="roma-layout" />
+                    <div class="overview-box-status">
+                        +8.9% <i class="pi pi-arrow-circle-up"/>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="overview-box card">
+                    <div class="overview-box-value">1259</div>
+                    <div class="overview-box-title">PURCHASES</div>
+                    
+                    <p:graphicImage name="images/dashboard/graph-purchases.svg" library="roma-layout" />
+                    <div class="overview-box-status">
+                        +67.2% <i class="pi pi-arrow-circle-up"/>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="overview-box card">
+                    <div class="overview-box-value">21</div>
+                    <div class="overview-box-title">ISSUES</div>
+         
+                    <p:graphicImage name="images/dashboard/graph-issues.svg" library="roma-layout" />
+                    <div class="overview-box-status">
+                        +3.0% <i class="pi pi-arrow-circle-up"/>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <div class="overview-box card">
+                    <div class="overview-box-value">42</div>
+                    <div class="overview-box-title">MESSAGES</div>
+   
+                    <p:graphicImage name="images/dashboard/graph-messages.svg" library="roma-layout" />
+                    <div class="overview-box-status">
+                        +12.5% <i class="pi pi-arrow-circle-up"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-lg-8">
+                <div class="card card-w-title" style="overflow: auto;">
+                    <h5 style="margin-top:0">Statistics</h5>
+                    <canvas id="dashboard-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-lg-4">
+                <div class="timeline card card-w-title">
+                    <h5>Timeline</h5>
+                    <ul>
+                        <li>
+                            <i class="pi pi-image"/>
+                            <span class="timeline-event-title">Uploaded Images</span>
+                            <span class="timeline-event-time">15m</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <div class="p-grid">
+                                <div class="p-col-6">
+                                    <p:graphicImage name="images/dashboard/image-1.jpg" library="roma-layout" />
+                                </div>
+                                <div class="p-col-6">
+                                    <p:graphicImage name="images/dashboard/image-2.jpg" library="roma-layout" />
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="pi pi-star"/>
+                            <span class="timeline-event-title">Favorites</span>
+                            <span class="timeline-event-time">1h</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                        </li>
+                        <li>
+                            <i class="pi pi-users"/>
+                            <span class="timeline-event-title">Meeting</span>
+                            <span class="timeline-event-time">2h</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                        </li>
+                        <li>
+                            <i class="pi pi-money-bill"/>
+                            <span class="timeline-event-title">Payment Received</span>
+                            <span class="timeline-event-time">3h</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-xl-6">
+                <div class="expenses card card-w-title">
+                    <h5>Expenses</h5>
+                    <div class="chart">
+                        $5500
+                    </div>
+                    <div class="p-grid expenses-legend">
+                        <div class="p-col-12 p-lg-4">
+                            <i class="pi pi-circle-on"/>
+                            <span class="expenses-title">Printer: Color Cartridge</span>
+                            <div class="expenses-price">$420</div>
+                            <span class="legend-status">23+ more than last month</span>
+                        </div>
+                        <div class="p-col-12 p-lg-4">
+                            <i class="pi pi-circle-on"/>
+                            <span class="expenses-title">Printer: B&amp;W Cartridge</span>
+                            <div class="expenses-price">$680</div>
+                            <span class="legend-status">60+ more than last month</span>
+                        </div>
+                        <div class="p-col-12 p-lg-4">
+                            <i class="pi pi-circle-on"/>
+                            <span class="expenses-title">Coffee Capsules</span>
+                            <div class="expenses-price">$150</div>
+                            <span class="legend-status">8% less than last month</span>
+                        </div>
+                    </div>
+
+                    <div class="expenses-footer">
+                        <a href="#">View more details >></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-xl-6">
+                <div class="card card-w-title">
+                    <h5>Schedule</h5>
+                    <p:schedule id="schedule" value="#{calendarDemoView.eventModel}" widgetVar="myschedule" >
+                        <p:ajax event="dateSelect" listener="#{calendarDemoView.onDateSelect}" />
+                        <p:ajax event="eventSelect" listener="#{calendarDemoView.onEventSelect}"  />
+                        <p:ajax event="eventMove" listener="#{calendarDemoView.onEventMove}" />
+                        <p:ajax event="eventResize" listener="#{calendarDemoView.onEventResize}" />
+                    </p:schedule>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-lg-6 p-xl-4">
+                <div class="card card-w-title tasks">
+                    <h5>Tasks</h5>
+                    <p>You have <span class="task-highlight">completed</span> 3 tasks out of 6.</p>
+                    <p:progressBar value="50" />
+                    
+                    <ul>
+                        <li>
+                            <p:selectBooleanCheckbox />
+                            <span>Sales Reports</span>
+                            <span class="task-badge-open">Open</span>
+                        </li>
+                        <li>
+                            <p:selectBooleanCheckbox />
+                            <span>Pay Invoices</span>
+                            <span class="task-badge-open">Open</span>
+                        </li>
+                        <li>
+                            <p:selectBooleanCheckbox />
+                            <span>Birthday Party</span>
+                            <span class="task-badge-open">Open</span>
+                        </li>
+                        <li>
+                            <p:selectBooleanCheckbox />
+                            <span>Client Meeting</span>
+                            <span class="task-badge-closed">Closed</span>
+                        </li>
+                        <li>
+                            <p:selectBooleanCheckbox />
+                            <span>New Themes</span>
+                            <span class="task-badge-closed">Closed</span>
+                        </li>
+                        <li>
+                            <p:selectBooleanCheckbox />
+                            <span>Flight Ticket</span>
+                            <span class="task-badge-closed">Closed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-lg-6 p-xl-4">
+                <div class="card card-w-title resolution-center ui-fluid">
+                    <h5>Resolution Center</h5>
+
+                    <p:inputText placeholder="Username" />
+
+                    <p:inputText placeholder="Email" />
+
+                    <p:inputTextarea rows="5" placeholder="Message" autoResize="false" />
+
+                    <div class="resolution-button-bar">
+                        <p:commandButton type="button" value="Send" icon="pi pi-envelope"/>
+                        <p:commandButton type="button" value="Save" styleClass="ui-button-secondary" icon="pi pi-plus"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-xl-4">
+                <div class="card card-w-title team">
+                    <h5>Team</h5>
+                    <ul>
+                        <li>
+                            <p:graphicImage name="images/avatar/avatar-1.png" library="roma-layout" />
+                            <div class="team-box">
+                                <span class="team-member">John Swisher Welch</span>
+                                <span class="team-member-account">@jswisher</span>
+                            </div>
+                            <a href="#">
+                                <i class="pi pi-github"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-twitter"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-facebook"/>
+                            </a>
+                        </li>
+                        <li>
+                            <p:graphicImage name="images/avatar/avatar-2.png" library="roma-layout" />
+                            <div class="team-box">
+                                <span class="team-member">Bernd Pfefferberg</span>
+                                <span class="team-member-account">@pfefferberg</span>
+                            </div>
+                            <a href="#">
+                                <i class="pi pi-github"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-twitter"/>
+                            </a><a href="#">
+                                <i class="pi pi-facebook"/>
+                            </a>
+                        </li>
+                        <li>
+                            <p:graphicImage name="images/avatar/avatar-3.png" library="roma-layout" />
+                            <div class="team-box">
+                                <span class="team-member">Chinaza Akachi</span>
+                                <span class="team-member-account">@chinazzza_</span>
+                            </div>
+                            <a href="#">
+                                <i class="pi pi-github"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-twitter"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-facebook"/>
+                            </a>
+                        </li>
+                        <li>
+                            <p:graphicImage name="images/avatar/avatar-4.png" library="roma-layout" />
+                            <div class="team-box">
+                                <span class="team-member">Luka Miller</span>
+                                <span class="team-member-account">@luk4mr</span>
+                            </div>
+                            <a href="#">
+                                <i class="pi pi-github"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-twitter"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-facebook"/>
+                            </a>
+                        </li>
+                        <li>
+                            <p:graphicImage name="images/avatar/avatar-5.png" library="roma-layout" />
+                            <div class="team-box">
+                                <span class="team-member">Maria Illescas</span>
+                                <span class="team-member-account">@casilledelamaria</span>
+                            </div>
+                            <a href="#">
+                                <i class="pi pi-github"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-twitter"/>
+                            </a>
+                            <a href="#">
+                                <i class="pi pi-facebook"/>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-xl-8">
+                <div class="card card-w-title live-support">
+                    <h5>Live Support</h5>
+                    <ul>
+                        <li class="message-from">
+                            <div class="p-grid">
+                                <div class="p-col-fixed">
+                                    <p:graphicImage name="images/avatar/avatar-1.png" library="roma-layout" />
+                                </div>
+                                <div class="p-col">
+                                    <div class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                            Nam ac euismod justo, eget blandit purus.</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="message-to">
+                            <div class="p-grid">
+                                <div class="p-col">
+                                    <div class="chat-message">Mauris malesuada quis risus ut consequat.
+                                        Maecenas ornare nunc risus, pulvinar euismod mi pellentesque eget.</div>
+                                </div>
+                                <div class="p-col-fixed">
+                                    <p:graphicImage name="images/avatar/avatar-1.png" library="roma-layout" />
+                                </div>
+                            </div>
+                        </li>
+                        <li class="message-from">
+                            <div class="p-grid">
+                                <div class="p-col-fixed">
+                                    <p:graphicImage name="images/avatar/avatar-2.png" library="roma-layout" />
+                                </div>
+                                <div class="p-col">
+                                    <div class="chat-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Nam ac euismod justo, eget blandit purus.</div> 
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="new-message">
+                        <div class="p-grid p-nogutter">
+                            <div class="p-col">
+                                <p:inputText placeholder="Write a message.." />
+                            </div>
+                            <div class="p-col-fixed">
+                                <p:commandButton type="button" value="Send" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-xl-4">
+                <div class="card user-card">
+                    <div class="user-card-header">
+                        <p:graphicImage name="images/dashboard/bg-header.png" library="roma-layout"  />
+                    </div>
+                    <div class="user-card-content">
+                        <p:graphicImage name="images/avatar/avatar.png" library="roma-layout"  />
+                        <p:commandButton id="user-button" type="button" icon="pi pi-cog" />
+
+                        <h:form>
+                            <p:menu overlay="true" trigger="user-button" my="left top" at="left bottom">
+                                <p:menuitem value="Save" icon="pi pi-check"/>
+                                <p:menuitem value="Update" icon="pi pi-refresh"/>
+                                <p:menuitem value="Delete" icon="pi pi-trash"/>
+                            </p:menu>
+                        </h:form>
+
+                        <div class="user-card-name">
+                            <span>Maria Llescas</span>
+                        </div>
+
+                        <div class="user-detail">
+                            <div class="p-grid">
+                                <div class="p-col-4">
+                                    <div class="user-detail-box">
+                                        <div class="user-detail-box-name">Tasks</div>
+                                        <div class="user-detail-box-detail">3 open</div>
+                                        <i class="pi pi-list"/>
+                                        <p:progressBar value="60" />
+                                    </div>
+                                </div>
+                                <div class="p-col-4">
+                                    <div class="user-detail-box">
+                                        <div class="user-detail-box-name">Revenue</div>
+                                        <div class="user-detail-box-detail">+20%</div>
+                                        <i class="pi pi-dollar"/>
+                                        <p:progressBar value="80" />
+                                    </div>
+                                </div>
+                                <div class="p-col-4">
+                                    <div class="user-detail-box">
+                                        <div class="user-detail-box-name">Payments</div>
+                                        <div class="user-detail-box-detail">24 New</div>
+                                        <i class="pi pi-money-bill"/>
+                                        <p:progressBar value="60" />
+                                    </div>
+                                </div>
+                                <div class="p-col-4">
+                                    <div class="user-detail-box">
+                                        <div class="user-detail-box-name">Clients</div>
+                                        <div class="user-detail-box-detail">+80%</div>
+                                        <i class="pi pi-users"/>
+                                        <p:progressBar value="50" />
+                                    </div>
+                                </div>
+                                <div class="p-col-4">
+                                    <div class="user-detail-box">
+                                        <div class="user-detail-box-name">Sales</div>
+                                        <div class="user-detail-box-detail">3 open</div>
+                                        <i class="pi pi-money-bill"/>
+                                        <p:progressBar value="60" />
+                                    </div>
+                                </div>
+                                <div class="p-col-4">
+                                    <div class="user-detail-box">
+                                        <div class="user-detail-box-name">Tasks</div>
+                                        <div class="user-detail-box-detail">3 open</div>
+                                        <i class="pi pi-chart-bar"/>
+                                        <p:progressBar value="60" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-xl-8">
+                
+                <div class="card card-w-title global-sales ui-fluid">
+                    <h5>Global Sales</h5>
+                    <p:dataTable value="#{dataTableDemoView.products1}" var="product" reflow="true"
+                                 paginator="true" paginatorPosition="bottom" rows="5">
+
+                        <p:column headerText="Image">
+                            <p:graphicImage name="demo/images/product/#{product.image}"
+                                            alt="#{product.image}" width="50" />
+                        </p:column>
+
+                        <p:column headerText="ID" sortBy="#{product.id}">
+                            <h:outputText value="#{product.id}" />
+                        </p:column>
+
+                        <p:column headerText="Category" sortBy="#{product.category}">
+                            <h:outputText value="#{product.category}" />
+                        </p:column>
+
+                        <p:column headerText="Price" sortBy="#{product.price}">
+                            <h:outputText value="$#{product.price}" />
+                        </p:column>
+
+                        <p:column headerText="Status" sortBy="#{product.inventoryStatus}" >
+                            <span class="product-badge status-#{product.inventoryStatus.name().toLowerCase()}">#{product.inventoryStatus}</span>
+                        </p:column>
+
+                        <p:column headerText="View" style="width: 10rem">
+                            <p:commandButton type="button" icon="pi pi-search" styleClass="ui-button-info p-mr-2 p-mb-1" />
+                            <p:commandButton type="button" icon="pi pi-times" styleClass="ui-button-danger p-mb-1" />
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-xl-4">
+                <div class="card weather">
+                    <div class="weather-header">
+                        <p:graphicImage name="images/dashboard/weather.png" library="roma-layout"  />
+                    </div>
+                    <div class="weather-content">
+                        <div class="weather-city">Antalya</div>
+                        <div class="weather-status">24&#176; C <i class="pi pi-map-marker" /></div>
+                        <div class="weather-detail">Feels like 26&#176; Low 14 &#176; High 28 &#176;</div>
+                        <a>Change Location</a>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+    </ui:define>
+</ui:composition>
