@@ -5,7 +5,6 @@
  */
 package forsoft.tech.app.repo;
 
-import forsoft.tech.app.model.Building;
 import forsoft.tech.app.model.CustomerMeta;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

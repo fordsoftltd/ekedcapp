@@ -6,8 +6,8 @@
 package forsoft.tech.app.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -42,11 +43,11 @@ public class Building implements Serializable {
     @Column(name = "ancillaryrole")
     private String ancillaryrole;
     @Column(name = "enabled")
-    private BigInteger enabled;
+    private String enabled;
     @Column(name = "feederid")
-    private BigInteger feederid;
+    private String feederid;
     @Column(name = "feederid2")
-    private BigInteger feederid2;
+    private String feederid2;
     @Column(name = "feederinfo")
     private String feederinfo;
     @Column(name = "electrictraceweight")
@@ -60,14 +61,14 @@ public class Building implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date datemodified;
     @Column(name = "lastuser")
-    private BigInteger lastuser;
+    private String lastuser;
     @Column(name = "datasource")
     private String datasource;
     @Lob
     @Column(name = "comments")
     private String comments;
     @Column(name = "locationid")
-    private BigInteger locationid;
+    private String locationid;
     @Column(name = "hyperlink")
     private String hyperlink;
     @Column(name = "subtypecd")
@@ -77,23 +78,20 @@ public class Building implements Serializable {
     @Column(name = "contractor")
     private String contractor;
     @Column(name = "installationdate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date installationdate;
+    private String installationdate;
     @Column(name = "energizationdate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date energizationdate;
+    private String energizationdate;
     
     @Column(name = "lastmaintenancedate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastmaintenancedate;
+    private String lastmaintenancedate;
     @Column(name = "status")
     private String status;
     @Column(name = "facilityid")
-    private BigInteger facilityid;
+    private String facilityid;
     @Column(name = "phasedesignation")
     private String phasedesignation;
     @Column(name = "connectiontype")
-    private BigInteger connectiontype;
+    private String connectiontype;
     @Column(name = "cutoutsize")
     private String cutoutsize;
     @Column(name = "demanddkw")
@@ -109,13 +107,13 @@ public class Building implements Serializable {
     @Column(name = "symbolrotation")
     private String symbolrotation;
     @Column(name = "customerrelationid")
-    private BigInteger customerrelationid;
+    private String customerrelationid;
     @Column(name = "edservicepointoid")
-    private BigInteger edservicepointoid;
+    private String edservicepointoid;
     @Column(name = "cableupriserid")
-    private BigInteger cableupriserid;
+    private String cableupriserid;
     @Column(name = "ltpoleid")
-    private BigInteger ltpoleid;
+    private String ltpoleid;
     @Column(name = "servicewireno")
     private Integer servicewireno;
     @Column(name = "transformername")
@@ -131,13 +129,23 @@ public class Building implements Serializable {
     @Column(name = "buildingcol")
     private String buildingcol;
     @Column(name = "objectid")
-    private BigInteger objectid;
+    private String objectid;
 
+    @Transient
+    private List<CustomerMeta> customers;
     public Building() {
     }
 
     public Building(Long id) {
         this.id = id;
+    }
+
+    public List<CustomerMeta> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<CustomerMeta> customers) {
+        this.customers = customers;
     }
 
     public Long getId() {
@@ -156,27 +164,27 @@ public class Building implements Serializable {
         this.ancillaryrole = ancillaryrole;
     }
 
-    public BigInteger getEnabled() {
+    public String getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(BigInteger enabled) {
+    public void setEnabled(String enabled) {
         this.enabled = enabled;
     }
 
-    public BigInteger getFeederid() {
+    public String getFeederid() {
         return feederid;
     }
 
-    public void setFeederid(BigInteger feederid) {
+    public void setFeederid(String feederid) {
         this.feederid = feederid;
     }
 
-    public BigInteger getFeederid2() {
+    public String getFeederid2() {
         return feederid2;
     }
 
-    public void setFeederid2(BigInteger feederid2) {
+    public void setFeederid2(String feederid2) {
         this.feederid2 = feederid2;
     }
 
@@ -220,11 +228,11 @@ public class Building implements Serializable {
         this.datemodified = datemodified;
     }
 
-    public BigInteger getLastuser() {
+    public String getLastuser() {
         return lastuser;
     }
 
-    public void setLastuser(BigInteger lastuser) {
+    public void setLastuser(String lastuser) {
         this.lastuser = lastuser;
     }
 
@@ -244,11 +252,11 @@ public class Building implements Serializable {
         this.comments = comments;
     }
 
-    public BigInteger getLocationid() {
+    public String getLocationid() {
         return locationid;
     }
 
-    public void setLocationid(BigInteger locationid) {
+    public void setLocationid(String locationid) {
         this.locationid = locationid;
     }
 
@@ -284,29 +292,31 @@ public class Building implements Serializable {
         this.contractor = contractor;
     }
 
-    public Date getInstallationdate() {
+    public String getInstallationdate() {
         return installationdate;
     }
 
-    public void setInstallationdate(Date installationdate) {
+    public void setInstallationdate(String installationdate) {
         this.installationdate = installationdate;
     }
 
-    public Date getEnergizationdate() {
+    public String getEnergizationdate() {
         return energizationdate;
     }
 
-    public void setEnergizationdate(Date energizationdate) {
+    public void setEnergizationdate(String energizationdate) {
         this.energizationdate = energizationdate;
     }
 
-    public Date getLastmaintenancedate() {
+    public String getLastmaintenancedate() {
         return lastmaintenancedate;
     }
 
-    public void setLastmaintenancedate(Date lastmaintenancedate) {
+    public void setLastmaintenancedate(String lastmaintenancedate) {
         this.lastmaintenancedate = lastmaintenancedate;
     }
+
+  
 
     public String getStatus() {
         return status;
@@ -316,11 +326,11 @@ public class Building implements Serializable {
         this.status = status;
     }
 
-    public BigInteger getFacilityid() {
+    public String getFacilityid() {
         return facilityid;
     }
 
-    public void setFacilityid(BigInteger facilityid) {
+    public void setFacilityid(String facilityid) {
         this.facilityid = facilityid;
     }
 
@@ -332,11 +342,11 @@ public class Building implements Serializable {
         this.phasedesignation = phasedesignation;
     }
 
-    public BigInteger getConnectiontype() {
+    public String getConnectiontype() {
         return connectiontype;
     }
 
-    public void setConnectiontype(BigInteger connectiontype) {
+    public void setConnectiontype(String connectiontype) {
         this.connectiontype = connectiontype;
     }
 
@@ -396,35 +406,35 @@ public class Building implements Serializable {
         this.symbolrotation = symbolrotation;
     }
 
-    public BigInteger getCustomerrelationid() {
+    public String getCustomerrelationid() {
         return customerrelationid;
     }
 
-    public void setCustomerrelationid(BigInteger customerrelationid) {
+    public void setCustomerrelationid(String customerrelationid) {
         this.customerrelationid = customerrelationid;
     }
 
-    public BigInteger getEdservicepointoid() {
+    public String getEdservicepointoid() {
         return edservicepointoid;
     }
 
-    public void setEdservicepointoid(BigInteger edservicepointoid) {
+    public void setEdservicepointoid(String edservicepointoid) {
         this.edservicepointoid = edservicepointoid;
     }
 
-    public BigInteger getCableupriserid() {
+    public String getCableupriserid() {
         return cableupriserid;
     }
 
-    public void setCableupriserid(BigInteger cableupriserid) {
+    public void setCableupriserid(String cableupriserid) {
         this.cableupriserid = cableupriserid;
     }
 
-    public BigInteger getLtpoleid() {
+    public String getLtpoleid() {
         return ltpoleid;
     }
 
-    public void setLtpoleid(BigInteger ltpoleid) {
+    public void setLtpoleid(String ltpoleid) {
         this.ltpoleid = ltpoleid;
     }
 
@@ -484,11 +494,11 @@ public class Building implements Serializable {
         this.buildingcol = buildingcol;
     }
 
-    public BigInteger getObjectid() {
+    public String getObjectid() {
         return objectid;
     }
 
-    public void setObjectid(BigInteger objectid) {
+    public void setObjectid(String objectid) {
         this.objectid = objectid;
     }
 

@@ -6,7 +6,7 @@
 package forsoft.tech.app.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +17,7 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -37,35 +38,35 @@ public class CustomerMeta implements Serializable {
     @Column(name = "id")
     private Long id;
     @Column(name = "objectid")
-    private BigInteger objectid;
+    private String objectid;
     @Column(name = "transformername")
     private String transformername;
     @Column(name = "discoid")
-    private BigInteger discoid;
+    private String discoid;
     @Column(name = "subdiscoid")
-    private BigInteger subdiscoid;
+    private String subdiscoid;
     @Column(name = "supplystructureid")
-    private BigInteger supplystructureid;
+    private String supplystructureid;
     @Column(name = "injectionsubstationid")
-    private BigInteger injectionsubstationid;
+    private String injectionsubstationid;
     @Column(name = "powertransformerid")
-    private BigInteger powertransformerid;
+    private String powertransformerid;
     @Column(name = "feederid")
-    private BigInteger feederid;
+    private String feederid;
     @Column(name = "htpoleid")
-    private BigInteger htpoleid;
+    private String htpoleid;
     @Column(name = "transformerid")
-    private BigInteger transformerid;
+    private String transformerid;
     @Column(name = "cableupriserid")
-    private BigInteger cableupriserid;
+    private String cableupriserid;
     @Column(name = "ltpoleid")
-    private BigInteger ltpoleid;
+    private String ltpoleid;
     @Column(name = "servicewireno")
     private Integer servicewireno;
     @Column(name = "cin")
     private String cin;
     @Column(name = "buildingcodeid")
-    private BigInteger buildingcodeid;
+    private String buildingcodeid;
     @Column(name = "connectiontype")
     private String connectiontype;
     @Column(name = "customerno")
@@ -135,13 +136,13 @@ public class CustomerMeta implements Serializable {
     @Column(name = "comment")
     private String comment;
     @Column(name = "edservicepointoid")
-    private BigInteger edservicepointoid;
+    private String edservicepointoid;
     @Column(name = "customerrelationid")
-    private BigInteger customerrelationid;
+    private String customerrelationid;
     @Column(name = "district")
     private String district;
     @Column(name = "confirmdtid")
-    private BigInteger confirmdtid;
+    private String confirmdtid;
     @Column(name = "districtcode")
     private String districtcode;
     @Column(name = "feedercode")
@@ -150,12 +151,39 @@ public class CustomerMeta implements Serializable {
     private String bldcode;
     @Column(name = "bldcodefinal")
     private String bldcodefinal;
+    @Column(name="datecreated")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date datecreated;
+     @Column(name="lastmodified")
+     @Temporal(javax.persistence.TemporalType.DATE)
+    private Date lastmodified;
 
     public CustomerMeta() {
+    }
+     public CustomerMeta(String district, String feedercode, String bldcodefinal) {
+         this.district= district;
+         this.feedercode=feedercode;
+         this.bldcodefinal=bldcodefinal;
     }
 
     public CustomerMeta(Long id) {
         this.id = id;
+    }
+
+    public Date getDatecreated() {
+        return datecreated;
+    }
+
+    public void setDatecreated(Date datecreated) {
+        this.datecreated = datecreated;
+    }
+
+    public Date getLastmodified() {
+        return lastmodified;
+    }
+
+    public void setLastmodified(Date lastmodified) {
+        this.lastmodified = lastmodified;
     }
 
     public Long getId() {
@@ -166,11 +194,11 @@ public class CustomerMeta implements Serializable {
         this.id = id;
     }
 
-    public BigInteger getObjectid() {
+    public String getObjectid() {
         return objectid;
     }
 
-    public void setObjectid(BigInteger objectid) {
+    public void setObjectid(String objectid) {
         this.objectid = objectid;
     }
 
@@ -182,83 +210,83 @@ public class CustomerMeta implements Serializable {
         this.transformername = transformername;
     }
 
-    public BigInteger getDiscoid() {
+    public String getDiscoid() {
         return discoid;
     }
 
-    public void setDiscoid(BigInteger discoid) {
+    public void setDiscoid(String discoid) {
         this.discoid = discoid;
     }
 
-    public BigInteger getSubdiscoid() {
+    public String getSubdiscoid() {
         return subdiscoid;
     }
 
-    public void setSubdiscoid(BigInteger subdiscoid) {
+    public void setSubdiscoid(String subdiscoid) {
         this.subdiscoid = subdiscoid;
     }
 
-    public BigInteger getSupplystructureid() {
+    public String getSupplystructureid() {
         return supplystructureid;
     }
 
-    public void setSupplystructureid(BigInteger supplystructureid) {
+    public void setSupplystructureid(String supplystructureid) {
         this.supplystructureid = supplystructureid;
     }
 
-    public BigInteger getInjectionsubstationid() {
+    public String getInjectionsubstationid() {
         return injectionsubstationid;
     }
 
-    public void setInjectionsubstationid(BigInteger injectionsubstationid) {
+    public void setInjectionsubstationid(String injectionsubstationid) {
         this.injectionsubstationid = injectionsubstationid;
     }
 
-    public BigInteger getPowertransformerid() {
+    public String getPowertransformerid() {
         return powertransformerid;
     }
 
-    public void setPowertransformerid(BigInteger powertransformerid) {
+    public void setPowertransformerid(String powertransformerid) {
         this.powertransformerid = powertransformerid;
     }
 
-    public BigInteger getFeederid() {
+    public String getFeederid() {
         return feederid;
     }
 
-    public void setFeederid(BigInteger feederid) {
+    public void setFeederid(String feederid) {
         this.feederid = feederid;
     }
 
-    public BigInteger getHtpoleid() {
+    public String getHtpoleid() {
         return htpoleid;
     }
 
-    public void setHtpoleid(BigInteger htpoleid) {
+    public void setHtpoleid(String htpoleid) {
         this.htpoleid = htpoleid;
     }
 
-    public BigInteger getTransformerid() {
+    public String getTransformerid() {
         return transformerid;
     }
 
-    public void setTransformerid(BigInteger transformerid) {
+    public void setTransformerid(String transformerid) {
         this.transformerid = transformerid;
     }
 
-    public BigInteger getCableupriserid() {
+    public String getCableupriserid() {
         return cableupriserid;
     }
 
-    public void setCableupriserid(BigInteger cableupriserid) {
+    public void setCableupriserid(String cableupriserid) {
         this.cableupriserid = cableupriserid;
     }
 
-    public BigInteger getLtpoleid() {
+    public String getLtpoleid() {
         return ltpoleid;
     }
 
-    public void setLtpoleid(BigInteger ltpoleid) {
+    public void setLtpoleid(String ltpoleid) {
         this.ltpoleid = ltpoleid;
     }
 
@@ -278,11 +306,11 @@ public class CustomerMeta implements Serializable {
         this.cin = cin;
     }
 
-    public BigInteger getBuildingcodeid() {
+    public String getBuildingcodeid() {
         return buildingcodeid;
     }
 
-    public void setBuildingcodeid(BigInteger buildingcodeid) {
+    public void setBuildingcodeid(String buildingcodeid) {
         this.buildingcodeid = buildingcodeid;
     }
 
@@ -550,19 +578,19 @@ public class CustomerMeta implements Serializable {
         this.comment = comment;
     }
 
-    public BigInteger getEdservicepointoid() {
+    public String getEdservicepointoid() {
         return edservicepointoid;
     }
 
-    public void setEdservicepointoid(BigInteger edservicepointoid) {
+    public void setEdservicepointoid(String edservicepointoid) {
         this.edservicepointoid = edservicepointoid;
     }
 
-    public BigInteger getCustomerrelationid() {
+    public String getCustomerrelationid() {
         return customerrelationid;
     }
 
-    public void setCustomerrelationid(BigInteger customerrelationid) {
+    public void setCustomerrelationid(String customerrelationid) {
         this.customerrelationid = customerrelationid;
     }
 
@@ -574,11 +602,11 @@ public class CustomerMeta implements Serializable {
         this.district = district;
     }
 
-    public BigInteger getConfirmdtid() {
+    public String getConfirmdtid() {
         return confirmdtid;
     }
 
-    public void setConfirmdtid(BigInteger confirmdtid) {
+    public void setConfirmdtid(String confirmdtid) {
         this.confirmdtid = confirmdtid;
     }
 

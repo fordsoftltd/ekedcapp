@@ -29,6 +29,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author odofintimothy
  */
 public class Utils {
+     public final static String HTPOLE = "HTPOLE";
+    public final static String LTPOLE = "LTPOLE";
+    public final static String CUSTOMER = "CUSTOMER";
+    public final static String BUILDING = "BUILDING";
     public static Object getData(Row row, String key, Map<String, Integer> map) {
         int cell = 0;
         if (map.containsKey(key)) {

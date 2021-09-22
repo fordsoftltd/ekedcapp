@@ -14,6 +14,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author odofintimothy
  */
 public interface BuildingRepo extends JpaRepository<Building,Long> {
-    
     List<Building> findByBldcodefinal(String code);
 }
