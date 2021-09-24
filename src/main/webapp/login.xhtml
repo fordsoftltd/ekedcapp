@@ -9,23 +9,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
     </f:facet>
-    <title>PrimeFaces Roma - Login</title>
+    <title>Application Login</title>
 </h:head>
 
 <h:body styleClass="login-body">
-
+    <h:form id="fm">
+         <p:growl id="msgs" showDetail="true"/>
+         
     <div class="card login-panel ui-fluid">
         <div class="login-panel-content">
             <div class="p-grid">
                 <div class="p-col-12 p-sm-6 p-md-6 logo-container">
-                    <img src="./resources/roma-layout/images/logo-roma.svg" />
-                    <span class="guest-sign-in">Welcome, please use the form to sign-in Roma network</span>
+<!--                    <img src="./resources/roma-layout/images/logo-roma.svg" />-->
+                    <span class="guest-sign-in">Welcome, please use the form to sign-in EKEDC network</span>
                 </div>
                 <div class="p-col-12 username-container">
                     <h:panelGroup>
                         <label>User Name</label>
                         <div class="login-input">
-                            <p:inputText />
+                            <p:inputText  value="#{loginController.user.username}" required="true" requiredMessage="Invalid username"/>
                         </div>
                     </h:panelGroup>
                 </div>
@@ -33,7 +35,7 @@
                     <h:panelGroup>
                         <label>Password</label>
                         <div class="login-input">
-                            <p:password />
+                            <p:password  value="#{loginController.user.password}" required="true" requiredMessage="invalid password"/>
                         </div>
                     </h:panelGroup>
                 </div>
@@ -47,12 +49,12 @@
                 </div>
 
                 <div class="p-col-12 p-sm-6 p-md-6">
-                    <p:button outcome="/dashboard" value="Sign In" icon="pi pi-user" />
+                    <p:commandButton action="#{loginController.login()}" value="Sign In" icon="pi pi-user"  update=":fm:msgs"/>
                 </div>
             </div>
         </div>
     </div>
-
+</h:form>
     <h:outputStylesheet name="css/primeicons.css" library="roma-layout" />
     <h:outputStylesheet name="css/primeflex.min.css" library="roma-layout" />
     <h:outputStylesheet name="css/layout-#{guestPreferences.componentTheme}.css" library="roma-layout" />

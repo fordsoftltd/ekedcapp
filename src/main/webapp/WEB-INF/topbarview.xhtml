@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:po="http://primefaces.org/roma">
+
+    <div class="layout-topbar">
+        <p:commandLink action="#{loginController.logoutAdmin()}" class="layout-right-panel-button layout-topbar-icon" styleClass="layout-right-panel-button layout-topbar-icon">
+                                <i class="pi pi-lock"></i>
+                                <span>Logout</span>
+                            </p:commandLink>
+
+        <a class="layout-menu-button layout-topbar-icon" href="#">
+            <i class="pi pi-bars" />
+        </a>
+
+        
+
+        <span class="layout-topbar-search">
+            <i class="pi pi-search"></i>
+            <input type="text" placeholder="Enter your search term"/>
+        </span>
+
+        <ul class="topbar-menu fadeInDown">
+            <ui:fragment rendered="#{guestPreferences.profileMode == 'popup' ? true : false}">
+                <li class="user-profile">
+                    <a href="#">
+<!--                        <p:graphicImage name="images/avatar/avatar.png" library="roma-layout" />-->
+                        <div class="layout-profile-userinfo">
+                            <span class="layout-profile-name">Admin</span>
+                            <span class="layout-profile-role">Operator</span>
+                        </div>
+                    </a>
+                    <ul>
+                        <li>
+                            <p:commandLink action="#{loginController.logoutAdmin()}">
+                                <i class="pi pi-user"></i>
+                                <span>Logout</span>
+                            </p:commandLink>
+                            
+                        </li>
+                     
+                    </ul>
+                </li>
+            </ui:fragment>
+           
+        </ul>
+    </div>
+
+</ui:composition>

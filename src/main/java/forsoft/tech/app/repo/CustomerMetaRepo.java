@@ -8,11 +8,15 @@ package forsoft.tech.app.repo;
 import forsoft.tech.app.model.CustomerMeta;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
  * @author odofintimothy
  */
 public interface CustomerMetaRepo extends JpaRepository<CustomerMeta,Long>{
-     List<CustomerMeta> findByBldcodefinal(String code);
+    @Query(value="select * from customer_meta where bldcodefinal=:bldcodefinal",nativeQuery=true)
+     List<CustomerMeta> findByBldcodefinal(@Param("bldcodefinal")String code);
+     List<CustomerMeta> findByCin(String cin);
 }

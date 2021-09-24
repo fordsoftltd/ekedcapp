@@ -8,11 +8,14 @@ package forsoft.tech.app.repo;
 import forsoft.tech.app.model.Building;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
  * @author odofintimothy
  */
 public interface BuildingRepo extends JpaRepository<Building,Long> {
-    List<Building> findByBldcodefinal(String code);
+    @Query(value="select * from building where bldcodefinal=:bldcodefinal",nativeQuery=true)
+    List<Building> findByBldcodefinal(@Param("bldcodefinal")String code);
 }

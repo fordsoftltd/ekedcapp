@@ -62,7 +62,7 @@ public class CustomerMeta implements Serializable {
     @Column(name = "ltpoleid")
     private String ltpoleid;
     @Column(name = "servicewireno")
-    private Integer servicewireno;
+    private String servicewireno;
     @Column(name = "cin")
     private String cin;
     @Column(name = "buildingcodeid")
@@ -70,7 +70,7 @@ public class CustomerMeta implements Serializable {
     @Column(name = "connectiontype")
     private String connectiontype;
     @Column(name = "customerno")
-    private Integer customerno;
+    private String customerno;
     @Column(name = "supplytype")
     private String supplytype;
     @Column(name = "premisestype")
@@ -111,7 +111,7 @@ public class CustomerMeta implements Serializable {
     private String metersealno;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "meterreading")
-    private Float meterreading;
+    private String meterreading;
     @Column(name = "dials")
     private String dials;
     @Column(name = "multiplierfactoronmeter")
@@ -129,7 +129,7 @@ public class CustomerMeta implements Serializable {
     @Column(name = "cutoutsize")
     private String cutoutsize;
     @Column(name = "numberofairconditioner")
-    private Integer numberofairconditioner;
+    private String numberofairconditioner;
     @Column(name = "approximatetotalratingofac")
     private String approximatetotalratingofac;
     @Lob
@@ -152,18 +152,18 @@ public class CustomerMeta implements Serializable {
     @Column(name = "bldcodefinal")
     private String bldcodefinal;
     @Column(name="datecreated")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date datecreated;
      @Column(name="lastmodified")
-     @Temporal(javax.persistence.TemporalType.DATE)
+     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastmodified;
 
     public CustomerMeta() {
     }
-     public CustomerMeta(String district, String feedercode, String bldcodefinal) {
-         this.district= district;
-         this.feedercode=feedercode;
-         this.bldcodefinal=bldcodefinal;
+     public CustomerMeta(String cin, String customernameonbill, String landlordname) {
+         this.cin= cin;
+         this.customernameonbill=customernameonbill;
+         this.landlordname=landlordname;
     }
 
     public CustomerMeta(Long id) {
@@ -290,11 +290,11 @@ public class CustomerMeta implements Serializable {
         this.ltpoleid = ltpoleid;
     }
 
-    public Integer getServicewireno() {
+    public String getServicewireno() {
         return servicewireno;
     }
 
-    public void setServicewireno(Integer servicewireno) {
+    public void setServicewireno(String servicewireno) {
         this.servicewireno = servicewireno;
     }
 
@@ -322,11 +322,11 @@ public class CustomerMeta implements Serializable {
         this.connectiontype = connectiontype;
     }
 
-    public Integer getCustomerno() {
+    public String getCustomerno() {
         return customerno;
     }
 
-    public void setCustomerno(Integer customerno) {
+    public void setCustomerno(String customerno) {
         this.customerno = customerno;
     }
 
@@ -482,11 +482,11 @@ public class CustomerMeta implements Serializable {
         this.metersealno = metersealno;
     }
 
-    public Float getMeterreading() {
+    public String getMeterreading() {
         return meterreading;
     }
 
-    public void setMeterreading(Float meterreading) {
+    public void setMeterreading(String meterreading) {
         this.meterreading = meterreading;
     }
 
@@ -554,11 +554,11 @@ public class CustomerMeta implements Serializable {
         this.cutoutsize = cutoutsize;
     }
 
-    public Integer getNumberofairconditioner() {
+    public String getNumberofairconditioner() {
         return numberofairconditioner;
     }
 
-    public void setNumberofairconditioner(Integer numberofairconditioner) {
+    public void setNumberofairconditioner(String numberofairconditioner) {
         this.numberofairconditioner = numberofairconditioner;
     }
 

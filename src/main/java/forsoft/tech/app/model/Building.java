@@ -115,7 +115,7 @@ public class Building implements Serializable {
     @Column(name = "ltpoleid")
     private String ltpoleid;
     @Column(name = "servicewireno")
-    private Integer servicewireno;
+    private String servicewireno;
     @Column(name = "transformername")
     private String transformername;
     @Column(name = "districtcode")
@@ -126,8 +126,6 @@ public class Building implements Serializable {
     private String bldcode;
     @Column(name = "bldcodefinal")
     private String bldcodefinal;
-    @Column(name = "buildingcol")
-    private String buildingcol;
     @Column(name = "objectid")
     private String objectid;
 
@@ -438,11 +436,11 @@ public class Building implements Serializable {
         this.ltpoleid = ltpoleid;
     }
 
-    public Integer getServicewireno() {
+    public String getServicewireno() {
         return servicewireno;
     }
 
-    public void setServicewireno(Integer servicewireno) {
+    public void setServicewireno(String servicewireno) {
         this.servicewireno = servicewireno;
     }
 
@@ -486,13 +484,7 @@ public class Building implements Serializable {
         this.bldcodefinal = bldcodefinal;
     }
 
-    public String getBuildingcol() {
-        return buildingcol;
-    }
-
-    public void setBuildingcol(String buildingcol) {
-        this.buildingcol = buildingcol;
-    }
+   
 
     public String getObjectid() {
         return objectid;
