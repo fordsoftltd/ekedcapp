@@ -21,6 +21,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.TabCloseEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ public class LoginController implements Serializable {
     @Autowired
     AppService service;
     private TreeNode root;
+    private CustomerMeta customer;
     private LoginRequest user;
 private String description;
     @PostConstruct
@@ -109,6 +112,15 @@ private String description;
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void onTabChange(TabChangeEvent event) {
+        FacesMessage msg = new FacesMessage("Tab Changed", "Active Tab: " + event.getTab().getTitle());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+     public void onTabClose(TabCloseEvent event) {
+        FacesMessage msg = new FacesMessage("Tab Closed", "Closed tab: " + event.getTab().getTitle());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
     public void onRowCancel(RowEditEvent<TreeNode> event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", event.getObject().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -154,6 +166,14 @@ private String description;
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public CustomerMeta getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerMeta customer) {
+        this.customer = customer;
     }
 
 }
