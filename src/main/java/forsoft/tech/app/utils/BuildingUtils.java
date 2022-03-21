@@ -11,7 +11,7 @@ package forsoft.tech.app.utils;
  */
 public class BuildingUtils {
 
-        public final static String OBJECTID = "OBJECTID";
+    public final static String OBJECTID = "OBJECTID";
     public final static String ANCILLARYROLE = "ANCILLARYROLE";
     public final static String ENABLED = "ENABLED";
     public final static String FEEDERID = "FEEDERID";

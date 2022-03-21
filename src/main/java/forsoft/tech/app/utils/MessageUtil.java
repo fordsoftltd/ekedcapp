@@ -16,4 +16,6 @@ public class MessageUtil {
     public final static String ERROR = "Error";
     public final static FacesMessage.Severity SUCCESS_TAG = FacesMessage.SEVERITY_INFO;
     public final static FacesMessage.Severity ERROR_TAG = FacesMessage.SEVERITY_ERROR;
+    public final static String DUPLICATE_RECORD = "Record Already Existed";
+    
 }

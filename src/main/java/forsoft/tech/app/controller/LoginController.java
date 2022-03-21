@@ -5,7 +5,7 @@
  */
 package forsoft.tech.app.controller;
 
-import forsoft.tech.app.api.dto.LoginRequest;
+import forsoft.tech.app.dto.LoginRequest;
 import forsoft.tech.app.model.Building;
 import forsoft.tech.app.model.CustomerMeta;
 import forsoft.tech.app.service.AppService;

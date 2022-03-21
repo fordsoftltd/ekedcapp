@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package forsoft.tech.app.api.dto;
+package forsoft.tech.app.dto;
 
 import java.io.Serializable;
 

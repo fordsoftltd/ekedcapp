@@ -19,4 +19,8 @@ public interface CustomerMetaRepo extends JpaRepository<CustomerMeta,Long>{
     @Query(value="select * from customer_meta where bldcodefinal=:bldcodefinal",nativeQuery=true)
      List<CustomerMeta> findByBldcodefinal(@Param("bldcodefinal")String code);
      List<CustomerMeta> findByCin(String cin);
+
+
+    @Query(value="select * from customer_meta where contractor=:contractor and feeder=:feeder and transformer=:transformer",nativeQuery=true)
+    List<CustomerMeta> findByBuilding(@Param("contractor")String contractor, @Param("feeder") String feeder, @Param("transformer") String transformer);
 }
