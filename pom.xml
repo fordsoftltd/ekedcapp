@@ -228,6 +228,8 @@
     </dependencies>
 
     <build>
+        <finalName>app</finalName>
+        <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

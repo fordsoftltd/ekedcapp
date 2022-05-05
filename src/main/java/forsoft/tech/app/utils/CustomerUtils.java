@@ -69,6 +69,7 @@ public class CustomerUtils {
     public final static String DISTRICT_CODE = "DISTRICT_CODE";
     public final static String FEEDER_CODE = "FEEDER_CODE";
     public final static String BLD_CODE = "BLD_CODE";
-    public final static String BLDCODE_FINAL = "BLDCODE_FINAL";
+    public final static String BLDCODE_FINAL = "BUILDING_CODE_FINAL";
+    public final static String BLDCODE_FINAL_UPDATED = "BUILDING_CODE_UPDATE";
 
 }

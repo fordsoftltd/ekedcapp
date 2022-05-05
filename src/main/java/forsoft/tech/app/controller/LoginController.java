@@ -7,7 +7,7 @@ package forsoft.tech.app.controller;
 
 import forsoft.tech.app.api.dto.LoginRequest;
 import forsoft.tech.app.model.Building;
-import forsoft.tech.app.model.CustomerMeta;
+import forsoft.tech.app.model.Customer;
 import forsoft.tech.app.service.AppService;
 import forsoft.tech.app.utils.FacesUtils;
 import forsoft.tech.app.utils.MessageUtil;
@@ -95,11 +95,11 @@ private String description;
     }
 
     public void createTree(Building b) {
-        List<CustomerMeta> cmlist = service.getCustomerMetaRepo().findByBldcodefinal(b.getBldcodefinal());
-        this.description="Code: "+b.getBldcodefinal()+" Transformer: "+ b.getTransformername()+" Feeder: "+ b.getFeederid();
-        System.out.println(description);
-        root = new DefaultTreeNode(new CustomerMeta(b.getDistrictcode(), b.getFeedercode(), b.getTransformername()), null);
-        for (CustomerMeta rs : cmlist) {
+        List<Customer> cmlist = service.getCustomerRepo().findByBldcodefinal(b.getBuilding_code_updated());
+        this.description="Code: "+b.getBuilding_code_updated()+" Transformer: "+ b.getTransformername()+" Feeder: "+ b.getFeedername();
+        System.out.println("Size of the record..............."+ cmlist.size() +" Code: "+ b.getBuilding_code_updated());
+        root = new DefaultTreeNode(new Customer(b.getDistrictcode(), b.getFeedername(), b.getTransformername()), null);
+        for (Customer rs : cmlist) {
             new DefaultTreeNode(rs, root);
         }
     }

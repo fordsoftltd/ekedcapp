@@ -7,6 +7,7 @@ package forsoft.tech.app.service;
 
 import forsoft.tech.app.repo.BuildingRepo;
 import forsoft.tech.app.repo.CustomerMetaRepo;
+import forsoft.tech.app.repo.CustomerRepo;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Service;
 @Data
 public class AppService {
    @Autowired
-   CustomerMetaRepo  customerMetaRepo;
+  private CustomerMetaRepo  customerMetaRepo;
    @Autowired
-   BuildingRepo buildingRepo;
+ private  BuildingRepo buildingRepo;
+   @Autowired
+   private CustomerRepo customerRepo;
 }

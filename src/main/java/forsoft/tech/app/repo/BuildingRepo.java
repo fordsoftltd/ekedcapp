@@ -16,6 +16,6 @@ import org.springframework.data.repository.query.Param;
  * @author odofintimothy
  */
 public interface BuildingRepo extends JpaRepository<Building,Long> {
-    @Query(value="select * from building where bldcodefinal=:bldcodefinal",nativeQuery=true)
+    @Query(value="select * from building where building_code_updated=:bldcodefinal",nativeQuery=true)
     List<Building> findByBldcodefinal(@Param("bldcodefinal")String code);
 }
