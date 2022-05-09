@@ -44,8 +44,10 @@ public class LoginController implements Serializable {
     private LoginRequest user;
 private String description;
     private List<District> districtList;
+    private Building currentBuilding;
     @PostConstruct
     public void init() {
+        currentBuilding= new Building();
         districtList = new ArrayList<>();
         user = new LoginRequest();
      
@@ -83,6 +85,7 @@ private String description;
 
                     FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/invalid.xhtml");
                 }else{
+                    currentBuilding=buildingList.get(0);
                     createTree(buildingList.get(0));
                     FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/secure/qr_code.xhtml");
                 }
@@ -141,7 +144,7 @@ private String description;
 
     public void createTree(Building b) {
         List<Customer> cmlist = service.getCustomerRepo().findByBldcodefinal(b.getBuilding_code_updated());
-        this.description="Code: "+b.getBuilding_code_updated()+" Transformer: "+ b.getTransformername()+" Feeder: "+ b.getFeedername();
+        this.description="Building Code: "+b.getBuilding_code_updated()+ " Feeder: "+ b.getFeedername()+" Transformer: "+ b.getTransformername();
         System.out.println("Size of the record..............."+ cmlist.size() +" Code: "+ b.getBuilding_code_updated());
         root = new DefaultTreeNode(new Customer(b.getDistrictcode(), b.getFeedername(), b.getTransformername()), null);
         for (Customer rs : cmlist) {
@@ -209,4 +212,11 @@ private String description;
         this.description = description;
     }
 
+    public Building getCurrentBuilding() {
+        return currentBuilding;
+    }
+
+    public void setCurrentBuilding(Building currentBuilding) {
+        this.currentBuilding = currentBuilding;
+    }
 }

@@ -15,7 +15,7 @@
             <div class="p-col-12">
                 <div class="card">
                     <h4>#{loginController.description}</h4>
-                    <p:treeTable value="#{loginController.root}" editable="true" editMode="cell" var="item">
+                    <p:treeTable value="#{loginController.root}" editable="true" editMode="cell" var="item"  paginator="true" paginatorPosition="top" rows="10">
      <f:facet name="header">
                List of houses on the scanned building
             </f:facet>
