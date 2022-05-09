@@ -33,6 +33,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author odofintimothy
  */
 public class Utils {
+    public final static String VALIDATED = "valid";
+    public final static String VALIDATEDLIST = "validlist";
+    public final static String VERIFIED_USER = "loginuser";
      public final static String HTPOLE = "HTPOLE";
     public final static String LTPOLE = "LTPOLE";
     public final static String CUSTOMER = "CUSTOMER";

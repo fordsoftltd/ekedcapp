@@ -5,14 +5,18 @@
  */
 package forsoft.tech.app.controller;
 
-import forsoft.tech.app.api.dto.LoginRequest;
+import forsoft.tech.app.dto.LoginRequest;
+import forsoft.tech.app.dto.Usersdto;
+import forsoft.tech.app.mapper.DtoMapper;
 import forsoft.tech.app.model.Building;
 import forsoft.tech.app.model.Customer;
+import forsoft.tech.app.model.District;
 import forsoft.tech.app.service.AppService;
-import forsoft.tech.app.utils.FacesUtils;
-import forsoft.tech.app.utils.MessageUtil;
+import forsoft.tech.app.utils.*;
+
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -39,30 +43,71 @@ public class LoginController implements Serializable {
     private TreeNode root;
     private LoginRequest user;
 private String description;
+    private List<District> districtList;
     @PostConstruct
     public void init() {
+        districtList = new ArrayList<>();
         user = new LoginRequest();
      
     }
+    public void printMessage(String message, String title, FacesMessage.Severity messageType) {
+        FacesContext contexts = FacesContext.getCurrentInstance();
+        contexts.addMessage(null, new FacesMessage(messageType, title, message));
+    }
+    public Usersdto loginUser() {
+        HttpSession session = (HttpSession) FacesUtils.getHttpSession(false);
+        Usersdto user = (Usersdto) session.getAttribute("user");
+        return user;
+
+    }
+
+    public void fetchDistrict(String contractor) {
+        districtList = service.getDistrictRepo().listByContractor(contractor);
+    }
 
     public void login() throws IOException {
-        if (user.getUsername().equals("admin") && user.getPassword().equals("admin")) {
-            storeToSession("login", "admin");
-           String  ls=(String) getSession().getAttribute("ld");
-           
-           List<Building> blist = service.getBuildingRepo().findByBldcodefinal(ls);
-            
-            if(blist.isEmpty()){
-                
-              FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/invalid.xhtml");
+        List<Usersdto> users = DtoMapper.maptoUsersdtoList(service.getUsersRepo().findByUsername(user.getUsername()));
+        if (users ==null || users.isEmpty()) {
+            printMessage(AppUtil.ACCOUNT_NOT_FOUND, AppUtil.ERROR, AppUtil.ERROR_TAG);
+
+        }else{
+            Usersdto loginUser = users.get(0);
+            if (BCrypt.checkpw(user.getPassword(), loginUser.getPassword())) {
+                storeToSession(Utils.VERIFIED_USER, loginUser);
+                fetchDistrict(loginUser.getContractorid());
+                String  ls=(String) getSession().getAttribute("ld");
+
+                List<Building> buildingList = service.getBuildingRepo().findByBldcodefinal(ls);
+
+                if(buildingList.isEmpty()){
+
+                    FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/invalid.xhtml");
+                }else{
+                    createTree(buildingList.get(0));
+                    FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/secure/qr_code.xhtml");
+                }
             }else{
-                createTree(blist.get(0));
-                 FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/qr_code.xhtml");
+                printMessage(AppUtil.ACCOUNT_NOT_FOUND, AppUtil.ERROR, AppUtil.ERROR_TAG);
+
             }
-           
-        } else {
-            log("Invlaid login credential", MessageUtil.ERROR, MessageUtil.ERROR_TAG);
         }
+//        if (user.getUsername().equals("admin") && user.getPassword().equals("admin")) {
+//            storeToSession("user", "admin");
+//           String  ls=(String) getSession().getAttribute("ld");
+//
+//           List<Building> blist = service.getBuildingRepo().findByBldcodefinal(ls);
+//
+//            if(blist.isEmpty()){
+//
+//              FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/invalid.xhtml");
+//            }else{
+//                createTree(blist.get(0));
+//                 FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/secure/qr_code.xhtml");
+//            }
+//
+//        } else {
+//            log("Invlaid login credential", MessageUtil.ERROR, MessageUtil.ERROR_TAG);
+//        }
     }
 
     public HttpSession getSession() {
@@ -146,6 +191,14 @@ private String description;
 
     public void setUser(LoginRequest user) {
         this.user = user;
+    }
+
+    public List<District> getDistrictList() {
+        return districtList;
+    }
+
+    public void setDistrictList(List<District> districtList) {
+        this.districtList = districtList;
     }
 
     public String getDescription() {

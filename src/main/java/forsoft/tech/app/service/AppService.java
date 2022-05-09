@@ -5,9 +5,7 @@
  */
 package forsoft.tech.app.service;
 
-import forsoft.tech.app.repo.BuildingRepo;
-import forsoft.tech.app.repo.CustomerMetaRepo;
-import forsoft.tech.app.repo.CustomerRepo;
+import forsoft.tech.app.repo.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,10 +18,69 @@ import org.springframework.stereotype.Service;
 @Service
 @Data
 public class AppService {
-   @Autowired
-  private CustomerMetaRepo  customerMetaRepo;
-   @Autowired
- private  BuildingRepo buildingRepo;
-   @Autowired
-   private CustomerRepo customerRepo;
+    @Autowired
+    BuildingRepo buildingRepo;
+    @Autowired
+    CustomerbkRepo customerbkRepo;
+    @Autowired
+    TaskschedulesRepo taskschedulesRepo;
+    @Autowired
+    CustomerBustypeRepo customerBustypeRepo;
+    @Autowired
+    CustomerHouseRepo customerHouseRepo;
+    @Autowired
+    CustomerTariffRepo customerTariffRepo;
+
+    @Autowired
+    CustomerviewrawRepo customerviewrawRepo;
+    @Autowired
+    HtpolesviewrawRepo htpolesviewrawRepo;
+    @Autowired
+    LtpolesviewrawRepo ltpolesviewrawRepo;
+    @Autowired
+    LtpolescontractorRepo ltpolescontractorRepo;
+    @Autowired
+    CustomercontractorRepo customercontractorRepo;
+    @Autowired
+    HtpolescontractorRepo htpolescontractorRepo;
+    @Autowired
+    AdminRepo adminRepo;
+
+    @Autowired
+    CustomerviewRepo customerviewRepo;
+
+    @Autowired
+    ApplogRepo applogRepo;
+    @Autowired
+    PolesviewRepo polesviewRepo;
+    @Autowired
+    StaffRepo staffRepo;
+    @Autowired
+    StateRepo stateRepo;
+    @Autowired
+    StatelgaRepo statelgaRepo;
+    @Autowired
+    UserrolesRepo userrolesRepo;
+    @Autowired
+    UsersRepo usersRepo;
+    @Autowired
+    CustomerRepo customerRepo;
+    @Autowired
+    PolesRepo polesRepo;
+
+    @Autowired
+    PoleshistoryRepo poleshistoryRepo;
+
+    @Autowired
+    CustomerhistoryRepo customerhistoryRepo;
+    @Autowired
+    FeederRepo feederRepo;
+    @Autowired
+    DistrictRepo districtRepo;
+    @Autowired
+    LtpolesviewRepo ltpolesviewRepo;
+    @Autowired
+    LtpolesRepo ltpolesRepo;
+    @Autowired
+    LtpoleshistoryRepo ltpoleshistoryRepo;
 }

@@ -202,16 +202,16 @@ public class CustomerManager {
         rs.setTransformerid(Utils.getData(row, CustomerUtils.TRANSFORMERID, map) + "");
         rs.setTransformername(Utils.getData(row, CustomerUtils.TRANSFORMERNAME, map) + "");
 
-        List<CustomerMeta> b = service.getCustomerMetaRepo().findByCin(rs.getCin());
-        if (!b.isEmpty()) {
-            CustomerMeta db = b.get(0);
-            rs.setId(db.getId());
-            rs.setLastmodified(new Date());
-
-        } else {
-            rs.setDatecreated(new Date());
-            rs.setLastmodified(new Date());
-        }
-        service.getCustomerMetaRepo().save(rs);
+//        List<CustomerMeta> b = service.getCustomerMetaRepo().findByCin(rs.getCin());
+//        if (!b.isEmpty()) {
+//            CustomerMeta db = b.get(0);
+//            rs.setId(db.getId());
+//            rs.setLastmodified(new Date());
+//
+//        } else {
+//            rs.setDatecreated(new Date());
+//            rs.setLastmodified(new Date());
+//        }
+//        service.getCustomerMetaRepo().save(rs);
     }
 }

@@ -1,0 +1,264 @@
+
+
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+
+        xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <p:dialog header="Customer Verification" showEffect="fade" modal="false"
+              widgetVar="detailDialog" dynamic="true"
+              responsive="true" position="top" maximizable="true" minimizable="true">
+        
+            <div class="p-grid ui-fluid dashboard" style="margin:0px; padding:0px">
+
+                    <div class="p-col-12">
+                            <p:tabView id="parent" styleClass="ui-fluid" style="padding:0px; margin:-5px; border-left:none; border-bottom: none; border-right: none;" dynamic="true">
+                                <p:tab title="Current Data" titleStyle="font-size:20px; font-weight:bold; color:#039BE5"
+                                >
+                                    <p:panelGrid  styleClass="ui-panelgrid-blank form-group" columns="2"  layout="grid"
+                                                  columnClasses="ui-grid-col-8,ui-grid-col-4" style="margin-left:-30px; padding:0px;">
+                                        <p:panelGrid  styleClass="ui-panelgrid-blank form-group" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8"
+                                                      style=" padding:0px; margin-left:-21px;">
+
+                                            <h:panelGroup styleClass="p-field">
+                                                <p:outputLabel>New Service Wire</p:outputLabel>
+                                                <p:inputMask value="#{verifyController.currentCustomer.newservicewireno}"
+                                                             mask="99">
+                                                    <p:ajax listener="#{verifyController.updateServicewire}" update="cinholder"/>
+                                                </p:inputMask>
+
+                                            </h:panelGroup>
+
+                                            <h:panelGroup styleClass="p-field">
+                                                <p:outputLabel>New CustomerId</p:outputLabel>
+                                                <p:inputMask value="#{verifyController.currentCustomer.newcustomerid}"
+                                                             mask="999">
+                                                    <p:ajax listener="#{verifyController.updateCustomerId}" update="cinholder"/>
+                                                </p:inputMask>
+
+                                            </h:panelGroup>
+                                            <h:outputLabel value="CIN"/>
+                                            <p:outputPanel id="cinholder">
+                                                <h:outputText value="#{verifyController.currentCustomer.cin}"/>
+                                                <p:autoUpdate/>
+                                            </p:outputPanel>
+                                            <h:outputLabel value="District"/>
+                                            <p:selectOneMenu value="#{appHelper.districtid}">
+                                                <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                <f:selectItems value="#{loginController.districtList}" var="hs" itemLabel="#{hs.description}"
+                                                               itemValue="#{hs.id}"
+                                                />
+                                                <p:ajax listener="#{verifyController.fetchFeeder}" update="feederresult"/>
+                                            </p:selectOneMenu>
+                                            <h:outputLabel value="Feeder"/>
+                                            <p:outputPanel  id="feederresult">
+                                                <p:selectOneMenu value="#{verifyController.currentCustomer.feederName}" filter="true" filterMatchMode="contains">
+                                                    <f:selectItem itemLabel="#{verifyController.currentCustomer.feederName}" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{verifyController.feederList}" var="ve" itemLabel="#{ve.description}"
+                                                                   itemValue="#{ve.description}"
+                                                    />
+                                                    <p:ajax listener="#{verifyController.updateCustomerDataFeeder}" update="transformerresult"/>
+                                                </p:selectOneMenu>
+                                            </p:outputPanel>
+                                            <h:outputLabel value="Transformer"/>
+                                            <p:outputPanel id="transformerresult">
+                                                <p:selectOneMenu value="#{verifyController.currentCustomer.transformername}">
+                                                    <f:selectItem itemLabel="#{verifyController.currentCustomer.transformername}" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{verifyController.transformerList}" var="tr" itemLabel="#{tr}"
+                                                                   itemValue="#{tr}"
+                                                    />
+                                                    <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                                </p:selectOneMenu>
+                                            </p:outputPanel>
+                                            <h:outputLabel value="CABLE UPRISER"/>
+                                            <p:selectOneMenu value="#{verifyController.currentCustomer.upriser}" filter="true"
+                                                             filterMatchMode="contains">
+                                                <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="0" itemValue="0"/>
+                                                <f:selectItem itemLabel="1" itemValue="1"/>
+                                                <f:selectItem itemLabel="2" itemValue="2"/>
+                                                <f:selectItem itemLabel="3" itemValue="3"/>
+                                                <f:selectItem itemLabel="4" itemValue="4"/>
+                                                <f:selectItem itemLabel="5" itemValue="5"/>
+                                                <f:selectItem itemLabel="6" itemValue="6"/>
+                                                <f:selectItem itemLabel="7" itemValue="7"/>
+                                                <f:selectItem itemLabel="8" itemValue="8"/>
+                                                <f:selectItem itemLabel="9" itemValue="9"/>
+
+                                                <p:ajax listener="#{verifyController.updateCustomer}" ignoreAutoUpdate="true" update="cinholder"/>
+                                            </p:selectOneMenu>
+                                            <h:outputLabel value="CUSTOMER NAME"/>
+                                            <p:inputText value="#{verifyController.currentCustomer.CUSTOMERNAMEonBILL}">
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:inputText>
+                                            <h:outputLabel value="ACCOUNT NO"/>
+                                            <h:outputText value="#{verifyController.currentCustomer.customerACCOUNTNO}"/>
+                                            <h:outputLabel value="NEW ACCOUNT NO"/>
+                                            <p:panelGrid columns="2" styleClass="ui-panel-gridblank" style="margin-top:-10px; padding:0px;" layout="grid">
+                                                <h:panelGroup styleClass="p-field">
+                                                    <p:outputLabel>New Account No</p:outputLabel>
+                                                    <p:inputText value="#{verifyController.currentCustomer.customeraccountnonew}"
+                                                                 maxlength="20">
+                                                        <p:ajax listener="#{verifyController.updateCustomerAccountNo}"/>
+                                                    </p:inputText>
+
+                                                </h:panelGroup>
+                                                <h:panelGroup styleClass="md-inputfield  md-inputfield-fill">
+                                                    <p:outputLabel>Entered By</p:outputLabel>
+                                                    <p:inputText   value="#{verifyController.currentCustomer.capturedby}"
+                                                    >
+                                                        <p:ajax listener="#{verifyController.updateCustomerAccountNo}"/>
+                                                    </p:inputText>
+
+                                                </h:panelGroup>
+
+                                            </p:panelGrid>
+                                            <h:outputLabel value="TARIFF"/>
+                                            <p:selectOneMenu value="#{verifyController.currentCustomer.tariff}" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                <f:selectItems value="#{verifyController.tariffList}" var="tf" itemLabel="#{tf}" itemValue="#{tf}"
+                                                />
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:selectOneMenu>
+
+
+                                            <h:outputLabel value="METER NO"/>
+                                            <p:inputText value="#{verifyController.currentCustomer.meterno}" >
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:inputText>
+
+                                            <h:outputLabel value="BUSINESS TYPE"/>
+                                            <p:selectOneMenu value="#{verifyController.currentCustomer.natureOfUseElectricity}" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                <f:selectItems value="#{verifyController.businessList}" var="bus" itemLabel="#{bus}"
+                                                               itemValue="#{bus}"/>
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:selectOneMenu>
+                                            <h:outputLabel value="HOUSE TYPE"/>
+                                            <p:selectOneMenu value="#{verifyController.currentCustomer.premisestype}" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                <f:selectItems value="#{verifyController.houseList}" var="hs" itemLabel="#{hs}" itemValue="#{hs}"
+                                                               itemDescription="#{hs}"/>
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:selectOneMenu>
+                                            <h:outputLabel value="PH ADDRESS"/>
+
+                                            <p:inputText value="#{verifyController.currentCustomer.physicalAddress}">
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:inputText>
+
+                                            <h:outputLabel value="LATITUDE"/>
+
+                                            <h:outputText value="#{verifyController.currentCustomer.lat}"/>
+                                            <h:outputLabel value="LONGITUDE"/>
+
+                                            <h:outputText value="#{verifyController.currentCustomer.longs}"/>
+                                            <h:outputLabel value="Ltpole Id"/>
+                                            <p:inputText value="#{verifyController.currentCustomer.ltpoleid}">
+                                                <p:ajax listener="#{verifyController.updateCustomer}" ignoreAutoUpdate="true" update="cinholder"/>
+                                            </p:inputText>
+
+                                            <h:outputText value="Verified?" />
+                                            <p:selectOneMenu value="#{verifyController.currentCustomer.done}">
+                                                <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                <f:selectItem itemLabel="Not Completed" itemValue="false" />
+                                                <f:selectItem itemLabel="Completed" itemValue="true" />
+
+                                                <p:ajax listener="#{verifyController.updateCustomer_v2}" ignoreAutoUpdate="true"/>
+                                            </p:selectOneMenu>
+                                            <h:outputText value="Comment"/>
+                                            <p:inputTextarea value="#{verifyController.currentCustomer.comments}">
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:inputTextarea>
+                                        </p:panelGrid>
+                                        <p:panelGrid  styleClass="ui-panelgrid-blank form-group" columns="1" style="padding:0px;  margin-right:-5px;">
+                                            <p:barcode type="qr" format="png"
+                                                       value="http://www.ekoelectricitydata.com.ng/verify/customer?cin=#{verifyController.currentCustomer.cin}"
+                                                       width="150" height="150" cache="true" />
+
+                                            <p:commandButton value="Logout" icon="ui-icon-close"
+                                                             actionListener="#{verifyController.clearCustomerVerification}"
+                                                             style="background-color:#039BE5;" />
+                                        </p:panelGrid>
+                                    </p:panelGrid>
+                                </p:tab>
+                                <p:tab title="Previous Data" titleStyle="font-size:20px; font-weight:bold; color:#039BE5">
+
+                                    <p:outputPanel>
+                                        <p:outputLabel value="No record history available"/>
+                                    </p:outputPanel>
+                                    <p:accordionPanel value="#{verifyController.customerhistoryList}"
+                                                      var="rs" style="border-left:none; border-bottom: none; border-right: none;
+                                                  margin:-20px; padding:0px; padding-top:20px;"
+                                                      id="rs" rendered="#{verifyController.customerhistoryList !=null || verifyController.customerhistoryList.size()>0}">
+                                        <p:tab title="#{rs.cin}">
+                                            <p:panelGrid  styleClass="ui-panelgrid-blank form-group" columns="2" columnClasses="ui-grid-col-5,ui-grid-col-7"
+                                                          style=" padding:0px; margin-left:-21px;">
+
+
+                                                <h:outputLabel value="CUSTOMER NAME"/>
+                                                <h:outputText value="#{rs.CUSTOMERNAMEonBILL}"/>
+                                                <h:outputLabel value="FEEDER"/>
+                                                <h:outputText value="#{rs.feederName}"/>
+                                                <h:outputLabel value="TRANSFORMER"/>
+                                                <h:outputText value="#{rs.transformername}"/>
+                                                <h:outputLabel value="CABLE UPRISER"/>
+                                                <h:outputText value="#{rs.cableUpriserID}"/>
+                                                <h:outputLabel value="POLE NO"/>
+                                                <h:outputText value="#{rs.HTPoleID}"/>
+                                                <h:outputLabel value="UPRISER NO"/>
+                                                <h:outputText value="#{rs.cableUpriserID}"/>
+                                                <h:outputLabel value="ACCOUNT NO"/>
+                                                <h:outputText value="#{rs.customerACCOUNTNO}"/>
+                                                <h:outputLabel value="TARIFF"/>
+                                                <p:selectOneMenu value="#{rs.tariff}" filter="true" filterMatchMode="contains">
+                                                    <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{verifyController.tflist}" var="tf" itemLabel="#{tf.label}" itemValue="#{tf.value}"
+                                                                   itemDescription="#{tf.description}"/>
+
+                                                </p:selectOneMenu>
+                                                <h:outputLabel value="METER NO"/>
+                                                <h:outputText value="#{rs.meterno}" />
+
+                                                <h:outputLabel value="BUSINESS TYPE"/>
+                                                <p:selectOneMenu value="#{rs.billingtype}" filter="true" filterMatchMode="contains">
+                                                    <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{verifyController.businessList}" var="bs" itemLabel="#{bs}" itemValue="#{bs}"
+                                                                   itemDescription="#{bs}"/>
+                                                    <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                                </p:selectOneMenu>
+                                                <h:outputLabel value="HOUSE TYPE"/>
+                                                <p:selectOneMenu value="#{rs.premisestype}" filter="true" filterMatchMode="contains">
+                                                    <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{verifyController.houseList}" var="hs" itemLabel="#{hs}" itemValue="#{hs}"
+                                                                   itemDescription="#{hs}"/>
+                                                    <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                                </p:selectOneMenu>
+
+                                                <h:outputLabel value="LATITUDE"/>
+
+                                                <h:outputText value="#{rs.lat}"/>
+                                                <h:outputLabel value="LONGITUDE"/>
+
+                                                <h:outputText value="#{rs.longs}"/>
+                                            </p:panelGrid>
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                </p:tab>
+                            </p:tabView>
+
+                    </div>
+
+            </div>
+      
+
+    </p:dialog>
+
+</ui:composition>
+
+
+
+

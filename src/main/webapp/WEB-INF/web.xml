@@ -38,10 +38,17 @@
         <filter-name>Character Encoding Filter</filter-name>
         <filter-class>org.primefaces.roma.filter.CharacterEncodingFilter</filter-class>
     </filter>
-   
+    <filter>
+        <filter-name>verify</filter-name>
+        <filter-class>forsoft.tech.app.utils.CustomerinfoAuthenticator</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>Character Encoding Filter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>verify</filter-name>
+        <url-pattern>/secure/*</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
