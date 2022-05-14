@@ -41,6 +41,7 @@ public class VerifyController implements Serializable {
     private Ltpolesdto currentltpole;
     private List<Customerhistorydto> customerhistoryList;
     private Customerdto currentCustomer;
+    private Customer mainCustomer;
     private List<SelectItem> tflist;
     private List<String> businessList;
     private List<String> houseList;
@@ -78,6 +79,7 @@ private Integer reportYear;
         populatetarif();
     }
 public void loadCustomer(Customer customer){
+        this.mainCustomer=customer;
     PrimeFaces current = PrimeFaces.current();
     Customerdto masterList3 = DtoMapper.maptoCustomerdto(customer);
     List<Customerhistorydto> masterHistories3 = null;
@@ -249,7 +251,18 @@ public void loadCustomer(Customer customer){
     }
 
     public void updateCustomerDataFeeder() {
-        currentCustomer = DtoMapper.maptoCustomerdto(service.getCustomerRepo().save(DtoMapper.maptoCustomer(currentCustomer)));
+        Customer ct =DtoMapper.maptoCustomer(currentCustomer);
+        ct.setDone(mainCustomer.getDone());
+        ct.setPastedby(mainCustomer.getPastedby());
+        ct.setContractorid(mainCustomer.getContractorid());
+        ct.setLongs(mainCustomer.getLongs());
+        ct.setLat(mainCustomer.getLat());
+        ct.setDatecreated(mainCustomer.getDatecreated());
+        ct.setDateUploaded(mainCustomer.getDateUploaded());
+        ct.setPrintcount(mainCustomer.getPrintcount());
+
+       ct= service.getCustomerRepo().save(ct);
+        currentCustomer = DtoMapper.maptoCustomerdto(ct);
         login.printMessage("Customer Data Updated Successfully", AppUtil.SUCCESS, AppUtil.SUCCESS_TAG);
         transformerList = service.getCustomerRepo().findTransformerList(currentCustomer.getFeederName(), reportYear);
     }
@@ -290,7 +303,17 @@ public void loadCustomer(Customer customer){
             String lower = cin.substring(0, 21);
             currentCustomer.setCin(lower + servicewire + currentCustomer.getNewcustomerid());
             currentCustomer.setCustomerID(currentCustomer.getNewcustomerid());
-            service.getCustomerRepo().save(DtoMapper.maptoCustomer(currentCustomer));
+            Customer ct =DtoMapper.maptoCustomer(currentCustomer);
+            ct.setDone(mainCustomer.getDone());
+            ct.setPastedby(mainCustomer.getPastedby());
+            ct.setContractorid(mainCustomer.getContractorid());
+            ct.setLongs(mainCustomer.getLongs());
+            ct.setLat(mainCustomer.getLat());
+            ct.setDatecreated(mainCustomer.getDatecreated());
+            ct.setDateUploaded(mainCustomer.getDateUploaded());
+            ct.setPrintcount(mainCustomer.getPrintcount());
+
+            service.getCustomerRepo().save(ct);
             login.printMessage("CustomerId Updated", AppUtil.SUCCESS, AppUtil.SUCCESS_TAG);
         }
 
@@ -364,13 +387,36 @@ public void loadCustomer(Customer customer){
     }
 
     public void updateCustomerData() {
-        currentCustomer = DtoMapper.maptoCustomerdto(service.getCustomerRepo().save(DtoMapper.maptoCustomer(currentCustomer)));
+        Customer ct =DtoMapper.maptoCustomer(currentCustomer);
+        ct.setDone(mainCustomer.getDone());
+        ct.setPastedby(mainCustomer.getPastedby());
+        ct.setContractorid(mainCustomer.getContractorid());
+        ct.setLongs(mainCustomer.getLongs());
+        ct.setLat(mainCustomer.getLat());
+        ct.setDatecreated(mainCustomer.getDatecreated());
+        ct.setDateUploaded(mainCustomer.getDateUploaded());
+        ct.setPrintcount(mainCustomer.getPrintcount());
+        ct.setLastmodified(mainCustomer.getLastmodified());
+        ct=service.getCustomerRepo().save(ct);
+        currentCustomer = DtoMapper.maptoCustomerdto(ct);
         login.printMessage("Customer Data Updated Successfully", AppUtil.SUCCESS, AppUtil.SUCCESS_TAG);
     }
 
     public void updateCustomerAccountNo() {
         currentCustomer.setCaptureddate(new Date());
-        currentCustomer = DtoMapper.maptoCustomerdto(service.getCustomerRepo().save(DtoMapper.maptoCustomer(currentCustomer)));
+        Customer ct =DtoMapper.maptoCustomer(currentCustomer);
+        ct.setDone(mainCustomer.getDone());
+        ct.setPastedby(mainCustomer.getPastedby());
+        ct.setContractorid(mainCustomer.getContractorid());
+        ct.setLongs(mainCustomer.getLongs());
+        ct.setLat(mainCustomer.getLat());
+        ct.setDatecreated(mainCustomer.getDatecreated());
+        ct.setDateUploaded(mainCustomer.getDateUploaded());
+        ct.setPrintcount(mainCustomer.getPrintcount());
+        ct.setCaptureddate(new Date());
+
+        ct=service.getCustomerRepo().save(ct);
+        currentCustomer = DtoMapper.maptoCustomerdto(ct);
         login.printMessage("Customer Data Updated Successfully", AppUtil.SUCCESS, AppUtil.SUCCESS_TAG);
     }
 
@@ -515,7 +561,18 @@ public void loadCustomer(Customer customer){
         Usersdto user = (Usersdto) session.getAttribute(Utils.VERIFIED_USER);
 
         if (cr.getLtpoleid().equals(currentCustomer.getLtpoleid()) && cr.getUpriser().equals(currentCustomer.getUpriser())) {
-            currentCustomer = DtoMapper.maptoCustomerdto(service.getCustomerRepo().save(DtoMapper.maptoCustomer(currentCustomer)));
+            Customer ct =DtoMapper.maptoCustomer(currentCustomer);
+            ct.setDone(mainCustomer.getDone());
+            ct.setPastedby(mainCustomer.getPastedby());
+            ct.setContractorid(mainCustomer.getContractorid());
+            ct.setLongs(mainCustomer.getLongs());
+            ct.setLat(mainCustomer.getLat());
+            ct.setDatecreated(mainCustomer.getDatecreated());
+            ct.setDateUploaded(mainCustomer.getDateUploaded());
+            ct.setPrintcount(mainCustomer.getPrintcount());
+
+            ct=service.getCustomerRepo().save(ct);
+            currentCustomer = DtoMapper.maptoCustomerdto(ct);
         } else {
             if (currentCustomer.getUpriser() != null && !currentCustomer.getUpriser().equals("")) {
                 currentCustomer.setPasteddate(new Date());
@@ -526,8 +583,18 @@ public void loadCustomer(Customer customer){
                 currentCustomer.setCableUpriserID(total);
                 String wire = currentCustomer.getCin().substring(0, currentCustomer.getCin().length() - 3);
                 currentCustomer.setServiceWireNo(wire);
-                currentCustomer = DtoMapper.maptoCustomerdto(service.getCustomerRepo()
-                        .save(DtoMapper.maptoCustomer(currentCustomer)));
+                Customer ct =DtoMapper.maptoCustomer(currentCustomer);
+                ct.setDone(mainCustomer.getDone());
+                ct.setPastedby(mainCustomer.getPastedby());
+                ct.setContractorid(mainCustomer.getContractorid());
+                ct.setLongs(mainCustomer.getLongs());
+                ct.setLat(mainCustomer.getLat());
+                ct.setDatecreated(mainCustomer.getDatecreated());
+                ct.setDateUploaded(mainCustomer.getDateUploaded());
+                ct.setPrintcount(mainCustomer.getPrintcount());
+
+                ct=service.getCustomerRepo().save(ct);
+                currentCustomer = DtoMapper.maptoCustomerdto(ct);
                 service.getCustomerhistoryRepo()
                         .save(DtoMapper.convertToCustomerhistory(cr, true, user.getUsername()));
                 DtoMapper.selfCustomerddto(currentCustomer, cr);
@@ -863,4 +930,11 @@ public void loadCustomer(Customer customer){
         this.crlt = crlt;
     }
 
+    public Customer getMainCustomer() {
+        return mainCustomer;
+    }
+
+    public void setMainCustomer(Customer mainCustomer) {
+        this.mainCustomer = mainCustomer;
+    }
 }

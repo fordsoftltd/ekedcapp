@@ -1672,6 +1672,7 @@ public class DtoMapper {
         mapto.setTransfomerid(mapfrom.getTransfomerid());
         mapto.setTransformername(mapfrom.getTransformername());
         mapto.setLtpoleid(mapfrom.getLtpoleid());
+
         return mapto;
     }
     
@@ -1680,6 +1681,9 @@ public class DtoMapper {
             return null;
         }
         Customer mapto = new Customer();
+        mapto.setLastmodified(mapfrom.getLastmodified());
+        mapto.setDateUploaded(mapfrom.getDateUploaded());
+        mapto.setDatecreated(mapfrom.getDatecreated());
         mapto.setDistrictName(mapfrom.getDistrictName());
         mapto.setComments(mapfrom.getComments());
         mapto.setCaptureddate(mapfrom.getCaptureddate());
@@ -1762,6 +1766,8 @@ public class DtoMapper {
         mapto.setBldcodefinal(mapfrom.getBldcodefinal());
         mapto.setBldcodefinalupdated(mapfrom.getBldcodefinalupdated());
         mapto.setBldcode(mapfrom.getBldcode());
+        mapto.setDistrictName(mapfrom.getDistrictName());
+
         return mapto;
     }
     
@@ -1770,6 +1776,9 @@ public class DtoMapper {
             return null;
         }
         Customerdto mapto = new Customerdto();
+        mapto.setLastmodified(mapfrom.getLastmodified());
+        mapto.setDateUploaded(mapfrom.getDateUploaded());
+        mapto.setDatecreated(mapfrom.getDatecreated());
         mapto.setComments(mapfrom.getComments());
         mapto.setCaptureddate(mapfrom.getCaptureddate());        
         mapto.setCapturedby(mapfrom.getCapturedby());
@@ -1844,13 +1853,103 @@ public class DtoMapper {
         mapto.setSupplystructureid(mapfrom.getSupplystructureid());
         mapto.setSupplytype(mapfrom.getSupplytype());
         mapto.setTariff(mapfrom.getTariff());
+        mapto.setDistrictName(mapfrom.getDistrictName());
         mapto.setTransfomerID(mapfrom.getTransfomerid());
         mapto.setTransformername(mapfrom.getTransformername());
         mapto.setLtpoleid(mapfrom.getLtpoleid());
+        mapto.setDistrictName(mapfrom.getDistrictName());
+        mapto.setComments(mapfrom.getComments());
+        mapto.setCaptureddate(mapfrom.getCaptureddate());
+        mapto.setCapturedby(mapfrom.getCapturedby());
+        mapto.setContractorid(mapfrom.getContractorid());
+        mapto.setLogindate(mapfrom.getLogindate());
+        mapto.setLat(mapfrom.getLat());
+        mapto.setBldcode(mapfrom.getBldcode());
+        mapto.setBldcodefinal(mapfrom.getBldcodefinal());
+        mapto.setLongs(mapfrom.getLongs());
+        if (mapfrom.getLat().contains("-")) {
+            mapto.setLat(getConvert(mapfrom.getLat()));
+        }
+        if (mapfrom.getLongs().contains("-")) {
+            mapto.setLongs(getConvert(mapfrom.getLongs()));
+        }
+        mapto.setMeternonew(mapfrom.getMeternonew());
+        mapto.setCustomeraccountnonew(mapfrom.getCustomeraccountnonew());
+        mapto.setDone(mapfrom.getDone());
+
+        mapto.setActualTariff(mapfrom.getActualtariff());
+        mapto.setAddressOnBill(mapfrom.getAddressonbill());
+        mapto.setApproximatetotalratingofac(mapfrom.getApproximatetotalratingofac());
+        mapto.setBillingtype(mapfrom.getBillingtype());
+        mapto.setBuildingCodeID(mapfrom.getBuildingcodeid());
+        mapto.setCUSTOMERNAMEonBILL(mapfrom.getCustomernameonbill());
+        mapto.setCableUpriserID(mapfrom.getCableupriserid());
+        mapto.setCallBackNo(mapfrom.getCallbackno());
+        mapto.setCin(mapfrom.getCin());
+        mapto.setCity(mapfrom.getCity());
+        mapto.setComment(mapfrom.getComment());
+        mapto.setConnectionType(mapfrom.getConnectiontype());
+        mapto.setCtratio(mapfrom.getCtratio());
+        mapto.setCustomerACCOUNTNO(mapfrom.getCustomeraccountno());
+        mapto.setCustomerID(mapfrom.getCustomerid());
+        mapto.setCustomerRelationID(mapfrom.getCustomerrelationid());
+        mapto.setCustomernumber(mapfrom.getCustomernumber());
+        mapto.setCustomerphoneno(mapfrom.getCustomerphoneno());
+        mapto.setCutoutsize(mapfrom.getCutoutsize());
+        mapto.setDials(mapfrom.getDials());
+
+        mapto.setFeederName(mapfrom.getFeedername());
+        mapto.setFeederid(mapfrom.getFeederid());
+        mapto.setGpscoordinate(mapfrom.getGpscoordinate());
+        mapto.setHTPoleID(mapfrom.getHtpoleid());
+        mapto.setHouseNo(mapfrom.getHouseno());
+        mapto.setId(mapfrom.getId());
+        mapto.setInjectionsubstationid(mapfrom.getInjectionsubstationid());
+        mapto.setNameOfDataCapturer(mapfrom.getNameofdatacapturer());
+        mapto.setNatureOfUseElectricity(mapfrom.getNatureofuseelectricity());
+        mapto.setNumberofaircondictioner(mapfrom.getNumberofaircondictioner());
+        mapto.setMeterbyPass(mapfrom.getMeterbypass());
+        mapto.setMeterdesigntype(mapfrom.getMeterdesigntype());
+        mapto.setMeterno(mapfrom.getMeterno());
+        mapto.setMeterreading(mapfrom.getMeterreading());
+        mapto.setMetersealno(mapfrom.getMetersealno());
+        mapto.setMeterstatus(mapfrom.getMeterstatus());
+        mapto.setMultiplierfactoronmeter(mapfrom.getMultiplierfactoronmeter());
+        mapto.setPasteddate(mapfrom.getPasteddate());
+        mapto.setPhasedesignation(mapfrom.getPhasedesignation());
+        mapto.setPhysicalAddress(mapfrom.getPhysicaladdress());
+        mapto.setPlot(mapfrom.getPlot());
+        mapto.setPowerTrasformerID(mapfrom.getPowertrasformerid());
+        mapto.setPremisestype(mapfrom.getPremisestype());
+        mapto.setPrintcount(mapfrom.getPrintcount());
+        mapto.setPrinted(mapfrom.getPrinted());
+        mapto.setPtratio(mapfrom.getPtratio());
+        mapto.setServiceWireNo(mapfrom.getServicewireno());
+        mapto.setStreet(mapfrom.getStreet());
+        mapto.setSubdiscoid(mapfrom.getSubdiscoid());
+        mapto.setSupplystructureid(mapfrom.getSupplystructureid());
+        mapto.setSupplytype(mapfrom.getSupplytype());
+        mapto.setTariff(mapfrom.getTariff());
+        mapto.setTransfomerID(mapfrom.getTransfomerid());
+        mapto.setTransformername(mapfrom.getTransformername());
+        mapto.setLtpoleid(mapfrom.getLtpoleid());
+        mapto.setBldcodefinal(mapfrom.getBldcodefinal());
+        mapto.setBldcodefinalupdated(mapfrom.getBldcodefinalupdated());
+        mapto.setBldcode(mapfrom.getBldcode());
+        mapto.setLastmodified(mapfrom.getLastmodified());
+        mapto.setDateUploaded(mapfrom.getDateUploaded());
+        mapto.setDatecreated(mapfrom.getDatecreated());
+        mapto.setDistrictName(mapfrom.getDistrictName());
         return mapto;
     }
     
     public static void selfCustomerddto(Customerdto mapfrom, Customerdto mapto) {
+        mapto.setLastmodified(mapfrom.getLastmodified());
+        mapto.setDateUploaded(mapfrom.getDateUploaded());
+        mapto.setDatecreated(mapfrom.getDatecreated());
+        mapto.setBldcodefinal(mapfrom.getBldcodefinal());
+        mapto.setBldcodefinalupdated(mapfrom.getBldcodefinalupdated());
+        mapto.setBldcode(mapfrom.getBldcode());
         mapto.setComments(mapfrom.getComments());
         mapto.setCaptureddate(mapfrom.getCaptureddate());
         mapto.setCapturedby(mapfrom.getCapturedby());
@@ -1922,6 +2021,9 @@ public class DtoMapper {
         mapto.setTariff(mapfrom.getTariff());
         mapto.setTransfomerID(mapfrom.getTransfomerID());
         mapto.setTransformername(mapfrom.getTransformername());
+        mapto.setLongs(mapfrom.getLongs());
+        mapto.setLat(mapfrom.getLat());
+        mapto.setDistrictName(mapfrom.getDistrictName());
     }
     
     public static List<Customerdto> maptoCustomerdtoList(List<Customer> mapfrom) {

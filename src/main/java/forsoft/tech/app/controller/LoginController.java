@@ -144,8 +144,7 @@ private String description;
 
     public void createTree(Building b) {
         List<Customer> cmlist = service.getCustomerRepo().findByBldcodefinal(b.getBuilding_code_updated());
-        this.description="Building Code: "+b.getBuilding_code_updated()+ " Feeder: "+ b.getFeedername()+" Transformer: "+ b.getTransformername();
-        System.out.println("Size of the record..............."+ cmlist.size() +" Code: "+ b.getBuilding_code_updated());
+        this.description="Building Code: "+b.getBuilding_code_updated()+ "\n Feeder: "+ b.getFeedername()+"\n Transformer: "+ b.getTransformername();
         root = new DefaultTreeNode(new Customer(b.getDistrictcode(), b.getFeedername(), b.getTransformername()), null);
         for (Customer rs : cmlist) {
             new DefaultTreeNode(rs, root);

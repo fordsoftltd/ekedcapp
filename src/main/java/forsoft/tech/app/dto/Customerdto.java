@@ -18,6 +18,9 @@ import java.util.List;
 @SessionScoped
 public class Customerdto implements Dto {
 
+    private Date dateUploaded;
+    private Date datecreated;
+    private Date lastmodified;
     private Integer id;
 
     private Date captureddate;
@@ -159,6 +162,62 @@ public class Customerdto implements Dto {
     private String bldcode;
     private String bldcodefinal;
     private String bldcodefinalupdated;
+
+    public Date getDateUploaded() {
+        return dateUploaded;
+    }
+
+    public void setDateUploaded(Date dateUploaded) {
+        this.dateUploaded = dateUploaded;
+    }
+
+    public Date getDatecreated() {
+        return datecreated;
+    }
+
+    public void setDatecreated(Date datecreated) {
+        this.datecreated = datecreated;
+    }
+
+    public Date getLastmodified() {
+        return lastmodified;
+    }
+
+    public void setLastmodified(Date lastmodified) {
+        this.lastmodified = lastmodified;
+    }
+
+    public String gethTPoleID() {
+        return hTPoleID;
+    }
+
+    public void sethTPoleID(String hTPoleID) {
+        this.hTPoleID = hTPoleID;
+    }
+
+    public String getcUSTOMERNAMEonBILL() {
+        return cUSTOMERNAMEonBILL;
+    }
+
+    public void setcUSTOMERNAMEonBILL(String cUSTOMERNAMEonBILL) {
+        this.cUSTOMERNAMEonBILL = cUSTOMERNAMEonBILL;
+    }
+
+    public String geteMailaddress() {
+        return eMailaddress;
+    }
+
+    public void seteMailaddress(String eMailaddress) {
+        this.eMailaddress = eMailaddress;
+    }
+
+    public String geteDServicePointOID() {
+        return eDServicePointOID;
+    }
+
+    public void seteDServicePointOID(String eDServicePointOID) {
+        this.eDServicePointOID = eDServicePointOID;
+    }
 
     public String getBldcodefinalupdated() {
         return bldcodefinalupdated;
