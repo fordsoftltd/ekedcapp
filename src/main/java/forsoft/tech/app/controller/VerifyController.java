@@ -2,10 +2,7 @@ package forsoft.tech.app.controller;
 
 import forsoft.tech.app.dto.*;
 import forsoft.tech.app.mapper.DtoMapper;
-import forsoft.tech.app.model.Customer;
-import forsoft.tech.app.model.Customerhistory;
-import forsoft.tech.app.model.District;
-import forsoft.tech.app.model.Feeder;
+import forsoft.tech.app.model.*;
 import forsoft.tech.app.service.AppService;
 import forsoft.tech.app.utils.AppUtil;
 import forsoft.tech.app.utils.BCrypt;
@@ -15,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 //Y!SW1@ad?22#Lih02
 import javax.annotation.PostConstruct;
@@ -26,8 +24,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-@Scope("session")
+
 @Component
+@Scope(value="session",  proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class VerifyController implements Serializable {
 
     @Autowired
@@ -77,6 +76,18 @@ private Integer reportYear;
         currentltpole = new Ltpolesdto();
         lthistoryList = new ArrayList<>();
         populatetarif();
+    }
+    public void updateDone(){
+        Users user = login.loginUser();
+        String buildingCode=login.getBuildingCode();
+
+        service.getBuildingRepo().updateBuilding(new Date(),
+                true, user.getId(), buildingCode);
+        Building bd = login.getCurrentBuilding();
+        bd.setDone(true);
+        login.setCurrentBuilding(bd);
+        login.updateCustomer();
+        login.printMessage("Building verification completed successfully", AppUtil.SUCCESS, AppUtil.SUCCESS_TAG);
     }
 public void loadCustomer(Customer customer){
         this.mainCustomer=customer;
@@ -143,8 +154,9 @@ public void loadCustomer(Customer customer){
         login.storeToSession(Utils.VALIDATED, single);
         masterHistories3 = DtoMapper.maptoCustomerhistorydtoList(service.getCustomerhistoryRepo().findByParentid(single.getId()));
         setCustomerhistoryList(masterHistories3);
-        single.setLogindate(new Date());
-        service.getCustomerRepo().save(DtoMapper.maptoCustomer(single));
+        mainCustomer.setLogindate(new Date());
+        currentCustomer.setComments(mainCustomer.getComments());
+        service.getCustomerRepo().save(mainCustomer);
         //response = "./apps/verify/customer.htm?faces-redirect=true";
         current.executeScript("PF('detailDialog').show()");
 
@@ -388,15 +400,16 @@ public void loadCustomer(Customer customer){
 
     public void updateCustomerData() {
         Customer ct =DtoMapper.maptoCustomer(currentCustomer);
-        ct.setDone(mainCustomer.getDone());
+        ct.setDone(true);
+
         ct.setPastedby(mainCustomer.getPastedby());
         ct.setContractorid(mainCustomer.getContractorid());
         ct.setLongs(mainCustomer.getLongs());
         ct.setLat(mainCustomer.getLat());
         ct.setDatecreated(mainCustomer.getDatecreated());
-        ct.setDateUploaded(mainCustomer.getDateUploaded());
         ct.setPrintcount(mainCustomer.getPrintcount());
-        ct.setLastmodified(mainCustomer.getLastmodified());
+        ct.setLastmodified(new Date());
+        ct.setComments(currentCustomer.getComments());
         ct=service.getCustomerRepo().save(ct);
         currentCustomer = DtoMapper.maptoCustomerdto(ct);
         login.printMessage("Customer Data Updated Successfully", AppUtil.SUCCESS, AppUtil.SUCCESS_TAG);
@@ -451,8 +464,7 @@ public void loadCustomer(Customer customer){
         session.setAttribute("data", null);
         session.setAttribute(Utils.VALIDATED, null);
         session.setAttribute(Utils.HTPOLE, null);
-//        session.setAttribute(Utils.VERIFIED_USER, null);
-//        session.invalidate();
+        session.setAttribute("ld", null);
         hthistoryList = new ArrayList<>();
         currenthtpole = new Polesdto();
         customerhistoryList = new ArrayList<>();
@@ -545,20 +557,20 @@ public void loadCustomer(Customer customer){
     }
 
     public void updateCustomer_v2() {
-        HttpSession session = FacesUtils.getHttpSession(false);
-        Usersdto user = (Usersdto) session.getAttribute(Utils.VERIFIED_USER);
+
+        Users user = login.loginUser();
         if (user != null) {
-            currentCustomer.setPastedby(user);
+            mainCustomer.setPastedby(user);
         }
-        currentCustomer.setPasteddate(new Date());
+        mainCustomer.setDone(true);
+        mainCustomer.setPasteddate(new Date());
         currentCustomer = DtoMapper.maptoCustomerdto(service.getCustomerRepo()
-                .save(DtoMapper.maptoCustomer(currentCustomer)));
+                .save(mainCustomer));
         login.printMessage(AppUtil.UPDATED, AppUtil.SUCCESS, AppUtil.SUCCESS_TAG);
     }
 
     public void updateCustomer() {
-        HttpSession session = FacesUtils.getHttpSession(false);
-        Usersdto user = (Usersdto) session.getAttribute(Utils.VERIFIED_USER);
+        Users user = login.loginUser();
 
         if (cr.getLtpoleid().equals(currentCustomer.getLtpoleid()) && cr.getUpriser().equals(currentCustomer.getUpriser())) {
             Customer ct =DtoMapper.maptoCustomer(currentCustomer);
@@ -584,13 +596,14 @@ public void loadCustomer(Customer customer){
                 String wire = currentCustomer.getCin().substring(0, currentCustomer.getCin().length() - 3);
                 currentCustomer.setServiceWireNo(wire);
                 Customer ct =DtoMapper.maptoCustomer(currentCustomer);
-                ct.setDone(mainCustomer.getDone());
-                ct.setPastedby(mainCustomer.getPastedby());
+                ct.setDone(true);
+                ct.setPastedby(user);
                 ct.setContractorid(mainCustomer.getContractorid());
                 ct.setLongs(mainCustomer.getLongs());
                 ct.setLat(mainCustomer.getLat());
+                ct.setLogindate(new Date());
+                ct.setBldcodefinalupdated(mainCustomer.getBldcodefinalupdated());
                 ct.setDatecreated(mainCustomer.getDatecreated());
-                ct.setDateUploaded(mainCustomer.getDateUploaded());
                 ct.setPrintcount(mainCustomer.getPrintcount());
 
                 ct=service.getCustomerRepo().save(ct);
@@ -604,183 +617,6 @@ public void loadCustomer(Customer customer){
 
     }
 
-    public void verifyCode() {
-        HttpSession session = FacesUtils.getHttpSession(false);
-        Usersdto user = (Usersdto) FacesUtils.getManagedBean("usersdto");
-        List<Usersdto> users = DtoMapper.maptoUsersdtoList(service.getUsersRepo().findByUsername(user.getUsername()));
-        if (users ==null || users.isEmpty()) {
-            login.printMessage(AppUtil.ACCOUNT_NOT_FOUND, AppUtil.ERROR, AppUtil.ERROR_TAG);
-            
-        } else {
-            Usersdto loginuser = users.get(0);
-            if (BCrypt.checkpw(user.getPassword(), loginuser.getPassword())) {
-                login.storeToSession(Utils.VERIFIED_USER, loginuser);
-                fetchDistrict(loginuser.getContractorid());
-                String resp= validateCode(session.getAttribute("data")==null?null:session.getAttribute("data").toString());
-                if(resp!=null){
-                    try {
-                        FacesUtils.getExternalContext().redirect(resp);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                login.printMessage(AppUtil.ACCOUNT_NOT_FOUND, AppUtil.ERROR, AppUtil.ERROR_TAG);
-               
-            }
-        }
-
-    }
-
-    public String validateCode(String code) {
-        String result[] = code.split(":");
-        String response = null;
-        switch (result[0]) {
-            case Utils.HTPOLE:
-                poletypelist = service.getPolesRepo().fetchPoletypes();
-                poletypelist.remove(" ");
-                poletypelist.remove(null);
-                poletypelist.remove("Unknown");
-                List<Polesdto> masterList = DtoMapper.maptoPolesdtoList(service.getPolesRepo().findByHtPoleno(result[1]));
-                List<Poleshistorydto> masterHistories = null;
-                if (masterList == null || masterList.isEmpty()) {
-                    masterHistories = DtoMapper.maptoPoleshistorydtoList(service.getPoleshistoryRepo().findByHtpoleNo(result[1]));
-                    if (masterHistories == null || masterHistories.isEmpty()) {
-                        login.printMessage(AppUtil.INVALID_POLE, AppUtil.ERROR, AppUtil.ERROR_TAG);
-                        login.storeToSession(Utils.VALIDATED, null);
-                        response = null;
-                    } else {
-                        Poleshistorydto single = masterHistories.get(0);
-                        Polesdto currentht = DtoMapper.maptoPolesdto(service.getPolesRepo().findById(single.getParent().getId()).get());
-                        setCurrenthtpole(currentht);
-                        masterHistories = DtoMapper.maptoPoleshistorydtoList(service.getPoleshistoryRepo().findByParentid(single.getParent().getId()));
-                        setHthistoryList(masterHistories);
-                        login.storeToSession(Utils.VALIDATED, currentht);
-                        currentht.setLogindate(new Date());
-                       service.getPolesRepo().save(DtoMapper.maptoPoles(currentht));
-                        //appController.storeToSession(Utils.VALIDATEDLIST, masterHistories);
-                        response = "./apps/verify/htpole.htm?faces-redirect=true";
-
-                    }
-                } else {
-                    Polesdto single = masterList.get(0);
-                    setCurrenthtpole(single);
-                    masterHistories = DtoMapper.maptoPoleshistorydtoList(service.getPoleshistoryRepo().findByParentid(single.getId()));
-                    login.storeToSession(Utils.VALIDATED, masterList.get(0));
-                    setHthistoryList(masterHistories);
-                    single.setLogindate(new Date());
-                    service.getPolesRepo().save(DtoMapper.maptoPoles(single));
-                    response = "./apps/verify/htpole.htm?faces-redirect=true";
-                }
-                break;
-            case Utils.CUSTOMER:
-                List<Customerdto> masterList3 = DtoMapper.maptoCustomerdtoList(service.getCustomerRepo().findByCin(result[1]));
-                List<Customerhistorydto> masterHistories3 = null;
-                if (masterList3 == null || masterList3.isEmpty()) {
-                    masterHistories3 = DtoMapper.maptoCustomerhistorydtoList(service.getCustomerhistoryRepo().findByCin(result[1]));
-                    if (masterHistories3 == null || masterHistories3.isEmpty()) {
-                        login.printMessage(AppUtil.INVALID_CUSTOMER, AppUtil.ERROR, AppUtil.ERROR_TAG);
-                        login.storeToSession(Utils.VALIDATED, null);
-                        response = null;
-                    } else {
-                        Customerhistorydto single = masterHistories3.get(0);
-                        Optional<Customer> cm = service.getCustomerRepo().findById(single.getParent().getId());
-                        Customerdto currentht = null;
-                        //Check if record with given parent id  present in the parent table
-                        if (cm.isPresent()) {
-                            currentht = DtoMapper.maptoCustomerdto(cm.get());
-                            setCurrentCustomer(currentht);
-                            masterHistories3 = DtoMapper.maptoCustomerhistorydtoList(service.getCustomerhistoryRepo().findByParentid(single.getParent().getId()));
-                            setCustomerhistoryList(masterHistories3);
-                            login.storeToSession(Utils.VALIDATED, currentht);
-                            currentht.setLogindate(new Date());
-                            service.getCustomerRepo().save(DtoMapper.maptoCustomer(currentht));
-                            response = "./apps/verify/customer.htm?faces-redirect=true";
-                        } else {
-                            //If the record with given Id not present search the record by accountnumber
-                            if (single.getCustomerACCOUNTNO() != null && single.getCustomerACCOUNTNO().length() > 9) {
-                                List<Customer> clist = service.getCustomerRepo().findByAccountNumber(single.getCustomerACCOUNTNO());
-                               //If no record found set the session to null
-                                if (clist.isEmpty()) {
-                                    login.printMessage(AppUtil.INVALID_CUSTOMER, AppUtil.ERROR, AppUtil.ERROR_TAG);
-                                    login.storeToSession(Utils.VALIDATED, null);
-                                    response = null;
-                                } else {
-                                    //If the record found retrieve the modifications made to the record from it's child table Customerhistory
-                                    currentht = DtoMapper.maptoCustomerdto(clist.get(0));
-                                    setCurrentCustomer(currentht);
-                                    masterHistories3 = DtoMapper.maptoCustomerhistorydtoList(
-                                            service.getCustomerhistoryRepo().findByAccountNumber(currentht.getCustomerACCOUNTNO()));
-                                    setCustomerhistoryList(masterHistories3);
-                                    login.storeToSession(Utils.VALIDATED, currentht);
-                                    currentht.setLogindate(new Date());
-                                    service.getCustomerRepo().save(DtoMapper.maptoCustomer(currentht));
-                                    response = "./apps/verify/customer.htm?faces-redirect=true";
-                                }
-                            } else {
-                                //If the account number is not up to the given size 
-                                login.printMessage(AppUtil.INVALID_CUSTOMER, AppUtil.ERROR, AppUtil.ERROR_TAG);
-                                login.storeToSession(Utils.VALIDATED, null);
-                                response = null;
-                            }
-
-                        }
-
-                    }
-                } else {
-                    Customerdto single = masterList3.get(0);
-                    setCurrentCustomer(single);
-                    login.storeToSession(Utils.VALIDATED, single);
-                    System.out.println("Fetching the list of children...............");
-                    masterHistories3 = DtoMapper.maptoCustomerhistorydtoList(service.getCustomerhistoryRepo().findByParentid(single.getId()));
-                    setCustomerhistoryList(masterHistories3);
-                    single.setLogindate(new Date());
-                    System.out.println("Done Fetching list of children..........................");
-                    service.getCustomerRepo().save(DtoMapper.maptoCustomer(single));
-                    response = "./apps/verify/customer.htm?faces-redirect=true";
-
-                }
-                break;
-
-            case Utils.LTPOLE:
-                poletypelist = service.getLtpolesRepo().fetchPoletypes();
-                poletypelist.remove(" ");
-                poletypelist.remove(null);
-                poletypelist.remove("Unknown");
-                List<Ltpolesdto> masterList1 = DtoMapper.maptoLtpolesdtoList(service.getLtpolesRepo().findByLtPoleno(result[1]));
-                List<Ltpoleshistorydto> masterHistories1 = null;
-                if (masterList1 == null || masterList1.isEmpty()) {
-                    masterHistories1 = DtoMapper.maptoLtpoleshistorydtoList(service.getLtpoleshistoryRepo().findByHtpoleNo(result[1]));
-                    if (masterHistories1 == null || masterHistories1.isEmpty()) {
-                        login.printMessage(AppUtil.INVALID_POLE, AppUtil.ERROR, AppUtil.ERROR_TAG);
-                        login.storeToSession(Utils.VALIDATED, null);
-                        response = null;
-                    } else {
-                        Ltpoleshistorydto single = masterHistories1.get(0);
-                        Ltpolesdto currentht = DtoMapper.maptoLtpolesdto(service.getLtpolesRepo().findById(single.getParent().getId()).get());
-                        setCurrentltpole(currentht);
-                        masterHistories1 = DtoMapper.maptoLtpoleshistorydtoList(service.getLtpoleshistoryRepo().findByParentid(single.getParent().getId()));
-                        setLthistoryList(masterHistories1);
-                        login.storeToSession(Utils.VALIDATED, currentht);
-                        //appController.storeToSession(Utils.VALIDATEDLIST, masterHistories);
-                        currentht.setLogindate(new Date());
-                        service.getLtpolesRepo().save(DtoMapper.maptoLtpoles(currentht));
-                        response = "./apps/verify/ltpole.htm?faces-redirect=true";
-                    }
-                } else {
-                    Ltpolesdto single = masterList1.get(0);
-                    setCurrentltpole(single);
-                    masterHistories1 = DtoMapper.maptoLtpoleshistorydtoList(service.getLtpoleshistoryRepo().findByParentid(single.getId()));
-                    login.storeToSession(Utils.VALIDATED, masterList1.get(0));
-                    setLthistoryList(masterHistories1);
-                    single.setLogindate(new Date());
-                    service.getLtpolesRepo().save(DtoMapper.maptoLtpoles(single));
-                    response = "./apps/verify/ltpole.htm?faces-redirect=true";
-                }
-                break;
-        }
-        return response;
-    }
 
     public AppService getService() {
         return service;

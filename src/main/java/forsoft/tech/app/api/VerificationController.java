@@ -7,7 +7,9 @@ package forsoft.tech.app.api;
 
 import forsoft.tech.app.controller.LoginController;
 import forsoft.tech.app.model.Building;
+import forsoft.tech.app.model.Users;
 import forsoft.tech.app.service.AppService;
+import forsoft.tech.app.utils.FacesUtils;
 import forsoft.tech.app.utils.Utils;
 import java.io.IOException;
 import java.io.Serializable;
@@ -58,11 +60,16 @@ public class VerificationController implements Serializable {
             HttpServletResponse response) throws IOException {
        
         List<Building> blist = service.getBuildingRepo().findByBldcodefinal(bldcode);
+        Users user = (Users) session.getAttribute(Utils.VERIFIED_USER);
         if (blist.isEmpty()) {
             response.sendRedirect(context.getContextPath() + "/invalid.xhtml");
-        } else {
+        }else if(user !=null){
+            session.setAttribute("ld", bldcode);
+            loginController.loadUserFromSession(blist, user);
+            response.sendRedirect(context.getContextPath() + "/secure/qr_code.xhtml");
+        }
+        else {
              session.setAttribute("ld", bldcode);
-           
             response.sendRedirect(context.getContextPath() + "/login.xhtml");
         }
 

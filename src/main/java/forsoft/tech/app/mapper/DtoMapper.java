@@ -1681,6 +1681,8 @@ public class DtoMapper {
             return null;
         }
         Customer mapto = new Customer();
+        mapto.setStatus(mapfrom.getStatus());
+
         mapto.setLastmodified(mapfrom.getLastmodified());
         mapto.setDateUploaded(mapfrom.getDateUploaded());
         mapto.setDatecreated(mapfrom.getDatecreated());
@@ -1693,6 +1695,7 @@ public class DtoMapper {
         mapto.setLat(mapfrom.getLat());
         mapto.setBldcode(mapfrom.getBldcode());
         mapto.setBldcodefinal(mapfrom.getBldcodefinal());
+        mapto.setBldcodefinalupdated(mapfrom.getBldcodefinalupdated());
         mapto.setLongs(mapfrom.getLongs());
         if (mapfrom.getLat().contains("-")) {
             mapto.setLat(getConvert(mapfrom.getLat()));
@@ -1754,6 +1757,7 @@ public class DtoMapper {
         mapto.setPrintcount(mapfrom.getPrintcount());
         mapto.setPrinted(mapfrom.getPrinted());
         mapto.setPtratio(mapfrom.getPtratio());
+
         mapto.setServicewireno(mapfrom.getServiceWireNo());
         mapto.setStreet(mapfrom.getStreet());
         mapto.setSubdiscoid(mapfrom.getSubdiscoid());
@@ -1767,7 +1771,12 @@ public class DtoMapper {
         mapto.setBldcodefinalupdated(mapfrom.getBldcodefinalupdated());
         mapto.setBldcode(mapfrom.getBldcode());
         mapto.setDistrictName(mapfrom.getDistrictName());
-
+mapto.setPasteddate(mapfrom.getPasteddate());
+mapto.setDone(mapfrom.getDone());
+mapto.setPastedby(maptoUsers(mapfrom.getPastedby()));
+mapto.setLogindate(mapfrom.getLogindate());
+mapto.setComments(mapfrom.getComments());
+mapto.setComment(mapfrom.getComment());
         return mapto;
     }
     
@@ -1776,6 +1785,7 @@ public class DtoMapper {
             return null;
         }
         Customerdto mapto = new Customerdto();
+        mapto.setStatus(mapfrom.getStatus());
         mapto.setLastmodified(mapfrom.getLastmodified());
         mapto.setDateUploaded(mapfrom.getDateUploaded());
         mapto.setDatecreated(mapfrom.getDatecreated());
@@ -1940,10 +1950,18 @@ public class DtoMapper {
         mapto.setDateUploaded(mapfrom.getDateUploaded());
         mapto.setDatecreated(mapfrom.getDatecreated());
         mapto.setDistrictName(mapfrom.getDistrictName());
+        mapto.setPasteddate(mapfrom.getPasteddate());
+        mapto.setDone(mapfrom.getDone());
+        mapto.setPastedby(maptoUsersdto(mapfrom.getPastedby()));
+        mapto.setLogindate(mapfrom.getLogindate());
+        mapto.setComment(mapfrom.getComment());
+        mapto.setComments(mapfrom.getComments());
+        mapto.setBldcodefinalupdated(mapfrom.getBldcodefinalupdated());
         return mapto;
     }
     
     public static void selfCustomerddto(Customerdto mapfrom, Customerdto mapto) {
+        mapto.setBldcodefinalupdated(mapfrom.getBldcodefinalupdated());
         mapto.setLastmodified(mapfrom.getLastmodified());
         mapto.setDateUploaded(mapfrom.getDateUploaded());
         mapto.setDatecreated(mapfrom.getDatecreated());

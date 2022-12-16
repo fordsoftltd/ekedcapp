@@ -68,12 +68,22 @@
 
                                             <h:outputLabel value="HOUSE TYPE"/>
                                             <h:outputText value="#{verifyController.currentCustomer.premisestype}"/>
+<h:outputLabel value="Plot"/>
 
-                                            <h:outputLabel value="PH ADDRESS"/>
-
-                                            <p:inputText value="#{verifyController.currentCustomer.physicalAddress}" disabled="true">
+<p:inputText value="#{verifyController.currentCustomer.plot}" disabled="true">
                                                 <p:ajax listener="#{verifyController.updateCustomerData}"/>
                                             </p:inputText>
+<h:outputLabel value="House No"/>
+
+<p:inputText value="#{verifyController.currentCustomer.houseNo}" disabled="true">
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:inputText>
+                                            <h:outputLabel value="Street"/>
+
+                                            <p:inputText value="#{verifyController.currentCustomer.street}" disabled="true">
+                                                <p:ajax listener="#{verifyController.updateCustomerData}"/>
+                                            </p:inputText>
+                                            
 
                                             <h:outputLabel value="LATITUDE"/>
 
@@ -87,15 +97,15 @@
                                             </p:inputText>
 
                                             <h:outputText value="Verified?" />
-                                            <p:selectOneMenu value="#{verifyController.currentCustomer.done}" disabled="true">
+                                            <p:selectOneMenu value="#{verifyController.currentCustomer.done}" disabled="false">
                                                 <f:selectItem itemLabel="--Select--" noSelectionOption="true"/>
                                                 <f:selectItem itemLabel="Not Completed" itemValue="false" />
                                                 <f:selectItem itemLabel="Completed" itemValue="true" />
 
-                                                <p:ajax listener="#{verifyController.updateCustomer_v2}" ignoreAutoUpdate="true"/>
+                                                <p:ajax listener="#{verifyController.updateCustomer_v2}"/>
                                             </p:selectOneMenu>
                                             <h:outputText value="Comment"/>
-                                            <p:inputTextarea value="#{verifyController.currentCustomer.comments}" disabled="true">
+                                            <p:inputTextarea value="#{verifyController.currentCustomer.comments}" disabled="false">
                                                 <p:ajax listener="#{verifyController.updateCustomerData}"/>
                                             </p:inputTextarea>
                                         </p:panelGrid>

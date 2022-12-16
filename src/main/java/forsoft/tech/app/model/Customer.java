@@ -42,7 +42,8 @@ public class Customer implements Serializable {
     private Integer id;
     @Column(name = "transformername")
     private String transformername;
-    
+    @Column(name="status_category")
+    private String status;
     @Column(name = "discoid")
     private String discoid;
     @Column(name = "subdiscoid")
@@ -268,6 +269,15 @@ private String bldcodefinalupdated;
 
     public Customer() {
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Customer(String cin, String customernameonbill, String landlordname) {
          this.cin= cin;
          this.customernameonbill=customernameonbill;

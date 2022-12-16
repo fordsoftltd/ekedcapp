@@ -11,8 +11,9 @@ package forsoft.tech.app.utils;
  */
 public class BuildingUtils {
 
-        public final static String OBJECTID = "OBJECTID";
+    public final static String OBJECTID = "OBJECTID";
     public final static String ANCILLARYROLE = "ANCILLARYROLE";
+    public final static String BUILDING_CODE_NEW = "BUILDING_CODE_NEW";
     public final static String ENABLED = "ENABLED";
     public final static String FEEDERID = "FEEDERID";
     public final static String FEEDERINFO = "FEEDERINFO";
@@ -53,7 +54,25 @@ public class BuildingUtils {
     public final static String DISTRICT_CODE = "DISTRICT_CODE";
     public final static String FEEDER_CODE = "FEEDER_CODE";
     public final static String BLD_CODE = "BLD_CODE";
-    public final static String BLDCODE_FINAL = "BLDCODE_FINAL";
+    public final static String BLDCODE_FINAL = "BUILDING_CODE_FINAL";
+    public final static String BLDCODE_FINAL_UPDATED = "BUILDING_CODE_UPDATE";
+    public final static String LONGITUDE = "LONGITUDE";
+    public final static String LATITUDE = "LATITUDE";
+    public final static String FEEDER_NAME = "FEEDERNAME";
+    public final static String BU_NAME = "BU_NAME";
+    public final static String CAPTURE_NAME = "CAPTURE_NAME";
+    public final static String CAPTURE_DATE = "CAPTURE_DATE";
+    public final static String CONN_TYPE = "CONN_TYPE";
+    public final static String SRV_WIRE_SIZE = "SRV_WIRE_SIZE";
+    public final static String SRV_WIRE_NO = "SRV_WIRE_NO";
+    public final static String BLDG_USAGE = "BLDG_USAGE";
+    public final static String BLDG_ID = "BLDG_ID";
+    public final static String HT_POLE_ID = "HT_POLE_ID";
+    public final static String UPRISER_NO = "UPRISER_NO";
+    public final static String BUILDINGSTATUS = "BuildingStatus".toUpperCase();
+    public final static String BUILDINGTYPE = "BuildingType".toUpperCase();
+    public final static String HOUSENO = "HouseNo".toUpperCase();
+    public final static String OLD_BUILDING_CODE_UPDATE = "OLD_BUILDING_CODE_UPDATE".toUpperCase();
     
    
 

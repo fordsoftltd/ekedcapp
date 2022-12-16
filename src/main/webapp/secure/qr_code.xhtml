@@ -9,9 +9,27 @@
 
     <ui:define name="content">
         <h:form id="form">
-             <p:growl id="msgs" showDetail="true"/>
+             <p:growl id="msgs" showDetail="true">
+                     <p:autoUpdate/>
+             </p:growl>
        
         <div class="p-grid">
+            <div class="p-col-12">
+                <div class="p-grid">
+                    <div class="p-col-10">
+
+                    </div>
+
+                    <div class="p-col-2">
+                        <p:outputPanel>
+<p:commandButton value="Complete verification" action="#{verifyController.updateDone()}" rendered="#{!loginController.currentBuilding.done}"/>
+                        <p:commandButton value="Verification Completed"  rendered="#{loginController.currentBuilding.done}" disabled="true"/>
+                      <p:autoUpdate/>
+                        </p:outputPanel>
+                    </div>
+
+                </div>
+            </div>
             <div class="p-col-12">
                 <div class="card">
                     <h4>#{loginController.description}</h4>
@@ -19,9 +37,11 @@
      <f:facet name="header">
                List of customer on the scanned building
             </f:facet>
-                        <p:ajax event="cellEdit" listener="#{loginController.onCellEdit}" update=":form:msgs"/>
+                        <p:column headerText="Status" responsivePriority="1">
+                            <h:outputText value="#{item.status}"/>
+                        </p:column>
 
-            <p:column headerText="Customer Name" responsivePriority="1">
+                        <p:column headerText="Customer Name" responsivePriority="1">
                <h:outputText value="#{item.customernameonbill}"/>
             </p:column>
             <p:column headerText="Cin" responsivePriority="6">

@@ -39,22 +39,22 @@ public class FileUploader {
     ServletContext context;
     
     @PostMapping("/file")
-    @ApiOperation(value = "Make a POST request to upload the file",
+    @ApiOperation(value = "Upload building or Customer record directly from API",
             produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
     public DeferredResult<ResponseEntity> uploadFile(
             @RequestParam(value = "category", required = true) String category,
+            @RequestParam("contractor")String contractor,
             @RequestPart(value = "file", required = true) MultipartFile file) {
         DeferredResult<ResponseEntity> result = new DeferredResult<>();
             try {
                 String originalName = file.getOriginalFilename().replaceAll("[\\\\/><\\|\\s\"'{}()\\[\\]]+", "_");
                 String files = getBasePath() + File.separator + Utils.getNewFileName(getBasePath(), originalName);
-
                 File testFile = new File(files);
                 FileUtils.writeByteArrayToFile(testFile, file.getBytes());
                 if(category.equals("BUILDING")){
                     customerManager.save(testFile);
                 }else{
-                    customerManager.saveCustomer(testFile);
+                    customerManager.saveCustomer(testFile,contractor);
                 }
                 result.setResult(ResponseEntity.ok("Upload in progress"));
                 return result;
@@ -66,10 +66,42 @@ public class FileUploader {
                 return result;
 
             }
-        } 
+        }
 
-    
- String getBasePath() {
+
+    @PostMapping("/customer/file")
+    @ApiOperation(value = "Upload building or Customer record directly from API",
+            produces = "application/json", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    public DeferredResult<ResponseEntity> udpateCustomer(
+            @RequestParam(value = "category", required = true) String category,
+
+            @RequestParam("contractor")String contractor,
+            @RequestPart(value = "file", required = true) MultipartFile file) {
+        DeferredResult<ResponseEntity> result = new DeferredResult<>();
+        try {
+            String originalName = file.getOriginalFilename().replaceAll("[\\\\/><\\|\\s\"'{}()\\[\\]]+", "_");
+            String files = getBasePath() + File.separator + Utils.getNewFileName(getBasePath(), originalName);
+            File testFile = new File(files);
+            FileUtils.writeByteArrayToFile(testFile, file.getBytes());
+            if(category.equals("BUILDING")){
+                customerManager.save(testFile);
+            }else{
+                customerManager.updateCustomer(testFile,contractor);
+            }
+            result.setResult(ResponseEntity.ok("Upload in progress"));
+            return result;
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            result.setResult(new ResponseEntity("An error occur while uploading", HttpStatus.OK));
+            return result;
+
+        }
+    }
+
+
+    String getBasePath() {
         return context.getRealPath("/WEB-INF/documents");
     }
 }

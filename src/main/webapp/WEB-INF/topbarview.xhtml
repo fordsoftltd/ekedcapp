@@ -24,14 +24,13 @@
                     <a href="#">
 <!--                        <p:graphicImage name="images/avatar/avatar.png" library="roma-layout" />-->
                         <div class="layout-profile-userinfo">
-                            <span class="layout-profile-name">Admin</span>
-                            <span class="layout-profile-role">Operator</span>
+                            <span class="layout-profile-name">#{loginuser.username}</span>
+                            <span class="layout-profile-role">#{loginuser.rolesid.description}</span>
                         </div>
                     </a>
                     <ul>
                         <li>
                             <p:commandLink action="#{loginController.logoutAdmin()}">
-                                <i class="pi pi-user"></i>
                                 <span>Logout</span>
                             </p:commandLink>
                             

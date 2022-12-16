@@ -64,8 +64,8 @@ public class Utils {
             }  else if (row.getCell(cell).getCellType().equals(CellType.BOOLEAN)) {
                 return row.getCell(cell).getBooleanCellValue();
             } else if (row.getCell(cell).getCellType().equals(CellType.NUMERIC)) {
-                BigDecimal b = new BigDecimal(row.getCell(cell).getNumericCellValue());
-                return b.toBigInteger().longValueExact();
+               return row.getCell(cell).getNumericCellValue();
+               // return b.toBigInteger().longValueExact();
                
             } 
             else if (row.getCell(cell).getCellType().equals(CellType.STRING)) {
@@ -75,7 +75,7 @@ public class Utils {
                 return row.getCell(cell).getDateCellValue();
             } 
         } else {
-            System.out.println("Key........................." + key + " ..............Not Found");
+            //System.out.println("Key........................." + key + " ..............Not Found");
             return "";
         }
 

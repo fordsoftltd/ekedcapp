@@ -162,6 +162,15 @@ public class Customerdto implements Dto {
     private String bldcode;
     private String bldcodefinal;
     private String bldcodefinalupdated;
+private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Date getDateUploaded() {
         return dateUploaded;

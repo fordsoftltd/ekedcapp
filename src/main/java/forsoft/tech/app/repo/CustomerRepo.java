@@ -7,7 +7,10 @@ package forsoft.tech.app.repo;
 
 import forsoft.tech.app.model.Customer;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
+
+import forsoft.tech.app.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +22,18 @@ import org.springframework.transaction.annotation.Transactional;
  * @author JIDEX
  */
 public interface CustomerRepo extends JpaRepository<Customer, Integer> {
+
+    @Modifying
+    @Transactional
+    @Query("update  Customer st set st.pasteddate=:pasteddate, st.done=:isDone, st.pastedby=:pastedBy where st.bldcodefinalupdated=:buildingcode")
+    void updateCustomer(@Param("pasteddate") Date pasteddate, @Param("isDone")Boolean done,
+                        @Param("pastedBy")Users user,
+                        @Param("buildingcode")String buildingcode);
+
+    @Modifying
+    @Transactional
+    @Query("update  Customer st set st.logindate=:pasteddate where st.bldcodefinalupdated=:buildingcode")
+    void updateLoginDate(@Param("pasteddate") Date pasteddate,@Param("buildingcode")String buildingcode);
 
      @Query(value="select * from customer where bldcodefinalupdated=:bldcodefinal",nativeQuery=true)
      List<Customer> findByBldcodefinal(@Param("bldcodefinal")String code);

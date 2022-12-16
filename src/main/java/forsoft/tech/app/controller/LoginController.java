@@ -11,12 +11,14 @@ import forsoft.tech.app.mapper.DtoMapper;
 import forsoft.tech.app.model.Building;
 import forsoft.tech.app.model.Customer;
 import forsoft.tech.app.model.District;
+import forsoft.tech.app.model.Users;
 import forsoft.tech.app.service.AppService;
 import forsoft.tech.app.utils.*;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,6 +30,8 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,7 +39,7 @@ import org.springframework.stereotype.Component;
  * @author odofintimothy
  */
 @Component
-@ApplicationScoped
+@Scope(value="session",  proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class LoginController implements Serializable {
 
     @Autowired
@@ -45,20 +49,29 @@ public class LoginController implements Serializable {
 private String description;
     private List<District> districtList;
     private Building currentBuilding;
+    List<Customer> cmlist;
     @PostConstruct
     public void init() {
+        cmlist=new ArrayList<>();
         currentBuilding= new Building();
         districtList = new ArrayList<>();
         user = new LoginRequest();
      
     }
+
     public void printMessage(String message, String title, FacesMessage.Severity messageType) {
         FacesContext contexts = FacesContext.getCurrentInstance();
         contexts.addMessage(null, new FacesMessage(messageType, title, message));
     }
-    public Usersdto loginUser() {
+    public Users loginUser() {
         HttpSession session = (HttpSession) FacesUtils.getHttpSession(false);
-        Usersdto user = (Usersdto) session.getAttribute("user");
+        Users user = (Users) session.getAttribute(Utils.VERIFIED_USER);
+        return user;
+
+    }
+    public String getBuildingCode() {
+        HttpSession session = (HttpSession) FacesUtils.getHttpSession(false);
+        String user = (String) session.getAttribute("ld");
         return user;
 
     }
@@ -66,14 +79,21 @@ private String description;
     public void fetchDistrict(String contractor) {
         districtList = service.getDistrictRepo().listByContractor(contractor);
     }
+    public void loadUserFromSession(List<Building> buildingList, Users loginUser) throws IOException {
+        fetchDistrict(loginUser.getContractorid());
+            currentBuilding=buildingList.get(0);
+            createTree(buildingList.get(0));
+           // FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/secure/qr_code.xhtml");
+
+    }
 
     public void login() throws IOException {
-        List<Usersdto> users = DtoMapper.maptoUsersdtoList(service.getUsersRepo().findByUsername(user.getUsername()));
+        List<Users> users = service.getUsersRepo().findByUsername(user.getUsername());
         if (users ==null || users.isEmpty()) {
             printMessage(AppUtil.ACCOUNT_NOT_FOUND, AppUtil.ERROR, AppUtil.ERROR_TAG);
 
         }else{
-            Usersdto loginUser = users.get(0);
+            Users loginUser = users.get(0);
             if (BCrypt.checkpw(user.getPassword(), loginUser.getPassword())) {
                 storeToSession(Utils.VERIFIED_USER, loginUser);
                 fetchDistrict(loginUser.getContractorid());
@@ -85,7 +105,10 @@ private String description;
 
                     FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/invalid.xhtml");
                 }else{
+
                     currentBuilding=buildingList.get(0);
+                    if(currentBuilding.getDone()==null || !currentBuilding.getDone())
+                        service.getCustomerRepo().updateLoginDate(new Date(),currentBuilding.getBuilding_code_updated());
                     createTree(buildingList.get(0));
                     FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/secure/qr_code.xhtml");
                 }
@@ -94,23 +117,7 @@ private String description;
 
             }
         }
-//        if (user.getUsername().equals("admin") && user.getPassword().equals("admin")) {
-//            storeToSession("user", "admin");
-//           String  ls=(String) getSession().getAttribute("ld");
-//
-//           List<Building> blist = service.getBuildingRepo().findByBldcodefinal(ls);
-//
-//            if(blist.isEmpty()){
-//
-//              FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/invalid.xhtml");
-//            }else{
-//                createTree(blist.get(0));
-//                 FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath() + "/secure/qr_code.xhtml");
-//            }
-//
-//        } else {
-//            log("Invlaid login credential", MessageUtil.ERROR, MessageUtil.ERROR_TAG);
-//        }
+
     }
 
     public HttpSession getSession() {
@@ -120,7 +127,6 @@ private String description;
 
     public void logoutAdmin() {
         try {
-            getSession().setAttribute("login", null);
             getSession().setAttribute("ld", null);
             FacesUtils.getExternalContext().redirect(FacesUtils.getServletContext().getContextPath());
         } catch (Exception e) {
@@ -143,14 +149,26 @@ private String description;
     }
 
     public void createTree(Building b) {
-        List<Customer> cmlist = service.getCustomerRepo().findByBldcodefinal(b.getBuilding_code_updated());
-        this.description="Building Code: "+b.getBuilding_code_updated()+ "\n Feeder: "+ b.getFeedername()+"\n Transformer: "+ b.getTransformername();
+        cmlist = service.getCustomerRepo().findByBldcodefinal(b.getBuilding_code_updated());
+        this.description="Building Code: "+b.getBuilding_code_updated()+ "; \n Feeder: "+ b.getFeedername()+"; \n Transformer: "+ b.getTransformername();
         root = new DefaultTreeNode(new Customer(b.getDistrictcode(), b.getFeedername(), b.getTransformername()), null);
         for (Customer rs : cmlist) {
             new DefaultTreeNode(rs, root);
         }
     }
+public void updateCustomer(){
+        if(!cmlist.isEmpty()){
+            cmlist.forEach(rs->{
+                rs.setDone(true);
+                rs.setPastedby(loginUser());
+                rs.setLogindate(new Date());
+                rs.setPasteddate(new Date());
+                service.getCustomerRepo().save(rs);
+            });
+        }
+    cmlist = service.getCustomerRepo().findByBldcodefinal(currentBuilding.getBuilding_code_updated());
 
+}
     public void onRowEdit(RowEditEvent<TreeNode> event) {
         FacesMessage msg = new FacesMessage("Document Edited", event.getObject().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
